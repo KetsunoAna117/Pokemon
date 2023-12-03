@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="Home"
+        android:id="@+id/mnHome"
+        android:icon="@drawable/baseline_home_24"
+        />
+    <item
+        android:title="Adventure"
+        android:id="@+id/mnAdventure"
+        android:icon="@drawable/adventure"
+        />
+    <item
+        android:title="Backpack"
+        android:id="@+id/mnBackpack"
+        android:icon="@drawable/backpack"
+        />
+</menu>

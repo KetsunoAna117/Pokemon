@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.AdventureActivity">
+
+    <LinearLayout
+        android:layout_margin="15sp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/adventure_main_frame"
+            android:layout_width="match_parent"
+            android:layout_height="500sp"
+            />
+
+        <FrameLayout
+            android:id="@+id/adventure_action_frame"
+            android:layout_width="match_parent"
+            android:layout_height="150sp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/menu"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bottom_nav"
+        >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+</RelativeLayout>
