@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
+import java.util.Locale;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.OnPokemonButtonSwitchListener;
@@ -64,8 +65,8 @@ public class MyPokemonAdapter extends ArrayAdapter<Pokemon> {
 
         Picasso.get().load(sprite).into(pokemonSprite);
         pokemonLvl.setText("Lv." + level);
-        pokemonName.setText(name);
-        pokemonType.setText(type);
+        pokemonName.setText(name.toUpperCase(Locale.ROOT));
+        pokemonType.setText(type.toUpperCase(Locale.ROOT));
         pokemonHp.setText("HP: " + hp + " / " + maxHp);
         pokemonHpBar.setMax(maxHp);
         pokemonHpBar.setProgress(hp);

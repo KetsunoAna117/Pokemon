@@ -20,7 +20,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Locale;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.OnPokemonButtonSwitchListener;
@@ -104,8 +104,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
 
         Picasso.get().load(TrainerController.getActiveTrainerData().getActivePokemon().getSprites().getFrontSprite()).into(pokemonSprite);
         pokemonLvl.setText("Lv." + TrainerController.getActiveTrainerData().getActivePokemon().getLevel());
-        pokemonName.setText(TrainerController.getActiveTrainerData().getActivePokemon().getName());
-        pokemonType.setText(TrainerController.getActiveTrainerData().getActivePokemon().getTypes().get(0).getTypeName().getName());
+        pokemonName.setText(TrainerController.getActiveTrainerData().getActivePokemon().getName().toUpperCase(Locale.ROOT));
+        pokemonType.setText(TrainerController.getActiveTrainerData().getActivePokemon().getTypes().get(0).getTypeName().getName().toUpperCase(Locale.ROOT));
         pokemonHp.setText("HP: " + TrainerController.getActiveTrainerData().getActivePokemon().getHp() + " / " + TrainerController.getActiveTrainerData().getActivePokemon().getMaxHp());
         pokemonHpBar.setMax(TrainerController.getActiveTrainerData().getActivePokemon().getMaxHp());
         pokemonHpBar.setProgress(TrainerController.getActiveTrainerData().getActivePokemon().getHp());
