@@ -10,20 +10,64 @@
         android:layout_margin="15sp"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="650sp" >
 
-        <FrameLayout
-            android:id="@+id/adventure_main_frame"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="500sp"
-            />
+            android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:id="@+id/adventure_action_frame"
+            <TextView
+                android:textStyle="bold"
+                android:text="Current Route"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="5sp"
+                android:id="@+id/adventure_activity_current_route"
+                android:text="Current Route"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/adventure_activity_current_route_pokemon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/adventure_activity_switch_route_button"
+                android:layout_marginTop="15sp"
+                android:text="Switch Route"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/adventure_activity_action_message"
+            android:gravity="center"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="150sp" />
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/adventure_activity_loading_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Let's Find Pokemon!"/>
+
+            <Button
+                android:id="@+id/adventure_activity_find_pokemon_button"
+                android:text="Walk Around"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
