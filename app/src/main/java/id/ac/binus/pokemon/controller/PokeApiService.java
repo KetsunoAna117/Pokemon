@@ -34,7 +34,7 @@ public class PokeApiService {
                     Pokemon pokemon = new Pokemon(response.body().getPokemonId(),
                                                     response.body().getName(),
                                                     response.body().getTypes(), response.body().getSprites(),
-                                                    TrainerController.getActiveTrainerData().getLevel());
+                                                    AdventureController.getActiveRoute().getMinLevel(), AdventureController.getActiveRoute().getMaxLevel());
                     listener.onPokemonReceived(pokemon);
                 }
             }

@@ -8,12 +8,15 @@ import android.util.Log;
 import android.widget.ProgressBar;
 
 import java.util.LinkedList;
+import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
+import id.ac.binus.pokemon.controller.AdventureController;
 import id.ac.binus.pokemon.controller.OnPokemonLoadedListener;
 import id.ac.binus.pokemon.controller.PokeApiService;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
+import id.ac.binus.pokemon.model.Route;
 import id.ac.binus.pokemon.model.Trainer;
 
 public class MainActivity extends AppCompatActivity implements OnPokemonLoadedListener {
@@ -28,8 +31,12 @@ public class MainActivity extends AppCompatActivity implements OnPokemonLoadedLi
         loadingProgressBar = findViewById(R.id.main_loading_progress_bar);
         loadingProgressBar.setMax(6);
 
+        // TODO delete this, it's for placeholder
         TrainerController.setActiveTrainerData(new Trainer("Hans", "Male", R.drawable.male_trainer));
         TrainerController.getActiveTrainerData().setExp(8);
+        Vector<Route> getRoutes = AdventureController.getAllRoutes();
+        AdventureController.setActiveRoute(getRoutes.get(0));
+
         getPokemonDataFromApi();
     }
 

@@ -4,11 +4,31 @@ import java.util.Vector;
 
 public class Route {
     private String routeName;
+    private Integer minLevel;
+    private Integer maxLevel;
     private Vector<String> areaPokemonList;
 
-    public Route(String routeName, Vector<String> areaPokemonList) {
+    public Route(String routeName, Integer minLevel, Integer maxLevel, Vector<String> areaPokemonList) {
         this.routeName = routeName;
+        this.minLevel = minLevel;
+        this.maxLevel = maxLevel;
         this.areaPokemonList = areaPokemonList;
+    }
+
+    public Integer getMinLevel() {
+        return minLevel;
+    }
+
+    public void setMinLevel(Integer minLevel) {
+        this.minLevel = minLevel;
+    }
+
+    public Integer getMaxLevel() {
+        return maxLevel;
+    }
+
+    public void setMaxLevel(Integer maxLevel) {
+        this.maxLevel = maxLevel;
     }
 
     public String getRouteName() {

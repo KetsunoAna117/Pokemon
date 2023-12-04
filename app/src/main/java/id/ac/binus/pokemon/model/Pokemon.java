@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 import java.util.Vector;
 
+import id.ac.binus.pokemon.controller.Helper;
 import id.ac.binus.pokemon.model.pokemon_attribute.Sprites;
 import id.ac.binus.pokemon.model.pokemon_attribute.Type;
 
@@ -27,16 +28,16 @@ public class Pokemon implements Cloneable {
     private Integer attackStats;
 
     // To initialize random pokemon encounter
-    public Pokemon(Integer pokemonId, String name, List<Type> types, Sprites sprites, Integer level) {
+    public Pokemon(Integer pokemonId, String name, List<Type> types, Sprites sprites, Integer minLevel, Integer maxLvl) {
         this.name = name;
-        this.level = level;
+        this.level = Helper.getRandomNumber(minLevel, maxLvl);
         this.sprites = sprites;
         this.types = types;
 
         // Should get Randomized HP and attack from 1 to pokemon current level
-        this.maxHp = (int) (Math.random() * level) + 1;
+        this.maxHp = Helper.getRandomNumber(1, level);
         this.hp = maxHp;
-        this.attackStats = (int) (Math.random() * level) + 1;;
+        this.attackStats = Helper.getRandomNumber(1, level);
     }
 
     // To make an existing pokemon data

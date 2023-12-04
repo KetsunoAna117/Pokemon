@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -21,11 +22,13 @@ import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
+import id.ac.binus.pokemon.controller.OnPokemonLoadedListener;
+import id.ac.binus.pokemon.model.Pokemon;
 
-public class AdventureActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener{
+public class AdventureActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnPokemonLoadedListener {
 
     private BottomNavigationView nav;
-    private TextView adventure_activity_current_route, adventure_activity_current_route_pokemon;
+    private TextView adventure_activity_current_route, adventure_activity_current_route_pokemon, adventure_activity_loading_status;
     private MaterialButton adventure_activity_switch_route_button;
     private  Button adventure_activity_find_pokemon_button;
 
@@ -41,8 +44,14 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
         menu.getItem(0).setChecked(false);
         menu.getItem(1).setChecked(true);
 
-        putView();
-        declareButtonClickEvent();
+        if(AdventureController.getEnemyPokemon() != null){
+            Intent battleIntent = new Intent(AdventureActivity.this, PokemonBattleActivity.class);
+            startActivity(battleIntent);
+        }
+        else{
+            putView();
+            declareButtonClickEvent();
+        }
     }
 
     @Override
@@ -67,10 +76,14 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
             Intent areaSelectionIntent = new Intent(AdventureActivity.this, AreaSelectionActivity.class);
             startActivity(areaSelectionIntent);
         }
+
         else{
             adventure_activity_current_route = (TextView) findViewById(R.id.adventure_activity_current_route);
             adventure_activity_current_route_pokemon = (TextView) findViewById(R.id.adventure_activity_current_route_pokemon);
+            adventure_activity_loading_status = (TextView) findViewById(R.id.adventure_activity_loading_status);
             adventure_activity_switch_route_button = (MaterialButton) findViewById(R.id.adventure_activity_switch_route_button);
+            adventure_activity_find_pokemon_button = (Button) findViewById(R.id.adventure_activity_find_pokemon_button);
+            TextView routePokemonLevel = (TextView) findViewById(R.id.adventure_activity_route_pokemon_level);
 
             adventure_activity_current_route.setText(AdventureController.getActiveRoute().getRouteName());
             Vector<String> pokemonList = AdventureController.getActiveRoute().getAreaPokemonList();
@@ -83,6 +96,8 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
                 }
             }
 
+            routePokemonLevel.setText("Lv. " + AdventureController.getActiveRoute().getMinLevel() + " - " + AdventureController.getActiveRoute().getMaxLevel());
+
             adventure_activity_switch_route_button.setBackgroundColor(Color.WHITE);
             adventure_activity_switch_route_button.setTextColor(Color.BLUE);
             adventure_activity_switch_route_button.setStrokeColor(ColorStateList.valueOf(Color.BLUE));
@@ -91,15 +106,24 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
                 Intent areaSelectionIntent = new Intent(AdventureActivity.this, AreaSelectionActivity.class);
                 startActivity(areaSelectionIntent);
             });
+            adventure_activity_find_pokemon_button.setVisibility(View.VISIBLE);
 
         }
     }
 
     private void declareButtonClickEvent(){
-        adventure_activity_find_pokemon_button = (Button) findViewById(R.id.adventure_activity_find_pokemon_button);
         adventure_activity_find_pokemon_button.setOnClickListener(view -> {
-            Intent battleIntent = new Intent(AdventureActivity.this, PokemonBattleActivity.class);
-            startActivity(battleIntent);
+            adventure_activity_switch_route_button.setVisibility(View.GONE);
+            adventure_activity_find_pokemon_button.setVisibility(View.GONE);
+            adventure_activity_loading_status.setText("Walking around...");
+            AdventureController.findEnemy(this);
         });
+    }
+
+    @Override
+    public void onPokemonReceived(Pokemon pokemon) {
+        AdventureController.setEnemyPokemon(pokemon);
+        Intent battleIntent = new Intent(AdventureActivity.this, PokemonBattleActivity.class);
+        startActivity(battleIntent);
     }
 }

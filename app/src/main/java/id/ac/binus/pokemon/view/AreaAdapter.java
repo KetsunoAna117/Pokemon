@@ -41,12 +41,15 @@ public class AreaAdapter extends ArrayAdapter<Route> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String name = getItem(position).getRouteName();
         Vector<String> pokemonList = getItem(position).getAreaPokemonList();
+        Integer minLevel = getItem(position).getMinLevel();
+        Integer maxLevel = getItem(position).getMaxLevel();
 
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView = inflater.inflate(resource, parent, false);
 
         TextView routeNameTv = (TextView) convertView.findViewById(R.id.area_adapter_route_name);
         TextView routePokemonTv = (TextView) convertView.findViewById(R.id.area_adapter_route_pokemon_list);
+        TextView routePokemonLevel = (TextView) convertView.findViewById(R.id.area_adapter_route_pokemon_level);
 
         routeNameTv.setText(name);
         for(int i=0; i<pokemonList.size(); i++){
@@ -57,6 +60,7 @@ public class AreaAdapter extends ArrayAdapter<Route> {
                 routePokemonTv.append(pokemonList.get(i));
             }
         }
+        routePokemonLevel.setText("Lv. " + minLevel + " - " + maxLevel);
 
         Button areaSwitchBtn = (Button) convertView.findViewById(R.id.area_adapter_select_route_button);
         areaSwitchBtn.setOnClickListener(view -> {

@@ -67,6 +67,7 @@
                     android:scaleY="3" />
 
                 <TextView
+                    android:textColor="@android:color/holo_red_light"
                     android:id="@+id/pokemon_enemy_attack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,7 +148,7 @@
         <LinearLayout
             android:id="@+id/battle_action"
             android:layout_width="match_parent"
-            android:layout_height="145dp"
+            android:layout_height="200dp"
             android:layout_marginTop="15sp"
             android:orientation="horizontal">
 
@@ -184,6 +185,15 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@android:color/holo_green_light"
                     android:text="Catch Pokemon"
+                    android:textSize="12sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/adventure_activity_run_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/white"
+                    android:textColor="@android:color/holo_red_light"
+                    android:text="Run"
                     android:textSize="12sp" />
 
             </LinearLayout>
