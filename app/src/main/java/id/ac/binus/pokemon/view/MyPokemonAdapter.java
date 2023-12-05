@@ -62,6 +62,7 @@ public class MyPokemonAdapter extends ArrayAdapter<Pokemon> {
         TextView pokemonAttackStats = (TextView) convertView.findViewById(R.id.mypokemon_attack);
         pokemonAttackStats.setTextColor(Color.RED);
         Button makeActivePokemonBtn = (Button) convertView.findViewById(R.id.mypokemon_switchToActive_btn);
+        Button releasePokemonBtn = (Button) convertView.findViewById(R.id.mypokemon_release_btn);
 
         Picasso.get().load(sprite).into(pokemonSprite);
         pokemonLvl.setText("Lv." + level);
@@ -74,12 +75,18 @@ public class MyPokemonAdapter extends ArrayAdapter<Pokemon> {
 
         makeActivePokemonBtn.setOnClickListener(view -> {
             Pokemon selectedPokemon = getItem(position);
-            TrainerController.getActiveTrainerData().setActivePokemon(selectedPokemon);
 
             if(buttonClickListener != null){
-                buttonClickListener.onPokemonButtonClick();
+                buttonClickListener.onPokemonSwitchButtonClick(selectedPokemon);
             }
+        });
 
+        releasePokemonBtn.setOnClickListener(event -> {
+            Pokemon selectedPokemon = getItem(position);
+
+            if(buttonClickListener != null){
+                buttonClickListener.onPokemonReleaseButtonClick(selectedPokemon);
+            }
         });
 
         return convertView;

@@ -1,21 +1,17 @@
 package id.ac.binus.pokemon.view;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
@@ -23,64 +19,44 @@ import java.util.Locale;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
-import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
 import id.ac.binus.pokemon.controller.OnPokemonButtonSwitchListener;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
 
-public class HomeActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnPokemonButtonSwitchListener {
-    private BottomNavigationView nav;
-    private TextView trainerName, trainerLevel, trainerExp;
-    private ImageView trainerProfilePicture;
-    private ProgressBar expBar;
+public class SwitchPokemonActivity extends AppCompatActivity implements OnPokemonButtonSwitchListener {
     private ListView mypokemonList;
+    private Button switch_pokemon_cancel_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_switch_pokemon);
 
-        playMusic();
+        putCaughtPokemonData();
         putAllHomeData();
-
-        nav = findViewById(R.id.bottom_nav);
-        nav.setOnItemSelectedListener(this);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.mnAdventure:
-                Intent adventureIntent = new Intent(HomeActivity.this, AdventureActivity.class);
-                startActivity(adventureIntent);
-                item.setChecked(true);
-                return true;
-            case R.id.mnBackpack:
-                Intent backpackIntent = new Intent(HomeActivity.this, BackpackActivity.class);
-                startActivity(backpackIntent);
-                item.setChecked(true);
-                return true;
-        }
+    private void putCaughtPokemonData(){
+        ImageView pokemonSprite = (ImageView) findViewById(R.id.switch_pokemon_catched_pokemon_sprite);
+        TextView pokemonLvl = (TextView) findViewById(R.id.switch_pokemon_catched_pokemon_level);
+        TextView pokemonName = (TextView) findViewById(R.id.switch_pokemon_catched_pokemon_name);
+        TextView pokemonType = (TextView) findViewById(R.id.switch_pokemon_catched_pokemon_type);
+        TextView pokemonHp = (TextView) findViewById(R.id.switch_pokemon_catched_pokemon_hp);
+        ProgressBar pokemonHpBar = (ProgressBar) findViewById(R.id.switch_pokemon_catched_pokemon_hpbar);
+        pokemonHpBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
+        TextView pokemonAttackStats = (TextView) findViewById(R.id.switch_pokemon_catched_pokemon_attack);
+        pokemonAttackStats.setTextColor(Color.RED);
 
-        return false;
-    }
+        Pokemon p = AdventureController.getEnemyPokemon();
 
-    @SuppressLint("SetTextI18n")
-    private void putTrainerData(){
-        trainerName = (TextView) findViewById(R.id.trainer_name);
-        trainerLevel = (TextView) findViewById(R.id.trainer_level);
-        trainerExp = (TextView) findViewById(R.id.trainer_exp);
-        trainerProfilePicture = (ImageView) findViewById(R.id.trainer_profile_picture);
-        expBar = (ProgressBar) findViewById(R.id.trainer_exp_exp_bar);
-
-        trainerName.setText("Trainer " + TrainerController.getActiveTrainerData().getName());
-        trainerExp.setText("Exp. " +TrainerController.getActiveTrainerData().getExp().toString() + " / " + TrainerController.getActiveTrainerData().getBaseExp().toString());
-        trainerLevel.setText("Lv." + TrainerController.getActiveTrainerData().getLevel().toString());
-
-        trainerProfilePicture.setImageResource(TrainerController.getActiveTrainerData().getProfilePicture());
-        expBar.setMax(TrainerController.getActiveTrainerData().getBaseExp());
-        expBar.setProgress(TrainerController.getActiveTrainerData().getExp());
-        expBar.setProgressTintList(ColorStateList.valueOf(Color.BLUE));
+        Picasso.get().load(p.getSprites().getFrontSprite()).into(pokemonSprite);
+        pokemonLvl.setText("Lv." + p.getLevel());
+        pokemonName.setText(p.getName().toUpperCase(Locale.ROOT));
+        pokemonType.setText(p.getTypes().get(0).getTypeName().getName().toUpperCase(Locale.ROOT));
+        pokemonHp.setText("HP: " + p.getHp() + " / " + p.getMaxHp());
+        pokemonHpBar.setMax(p.getMaxHp());
+        pokemonHpBar.setProgress(p.getHp());
+        pokemonAttackStats.setText(p.getAttackStats() + " ATK");
     }
 
     private void putTrainerPokemonDataToAdapter(){
@@ -114,9 +90,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
     }
 
     public void putAllHomeData(){
-        putTrainerData();
         putTrainerPokemonDataToAdapter();
         putActivePokemonData();
+
+        switch_pokemon_cancel_button = (Button) findViewById(R.id.switch_pokemon_cancel_button);
+        switch_pokemon_cancel_button.setOnClickListener(event -> {
+            AdventureController.setEnemyPokemon(null);
+            Intent intent = new Intent(SwitchPokemonActivity.this, HomeActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -127,13 +109,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
 
     @Override
     public void onPokemonReleaseButtonClick(Pokemon selectedPokemon) {
+        Pokemon caughtPokemon = AdventureController.getEnemyPokemon();
+        if(selectedPokemon == TrainerController.getActiveTrainerData().getActivePokemon()){
+            TrainerController.getActiveTrainerData().setActivePokemon(caughtPokemon);
+        }
+        TrainerController.getActiveTrainerData().getParty().add(caughtPokemon);
         TrainerController.removeTrainerPokemon(selectedPokemon);
-        putAllHomeData();
-    }
 
-    private void playMusic(){
-        MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
-        mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.evergrandecity);
+        Intent intent = new Intent(SwitchPokemonActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
-
 }

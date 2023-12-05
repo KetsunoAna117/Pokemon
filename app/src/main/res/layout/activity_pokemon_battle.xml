@@ -158,7 +158,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/battle_message_border"
                 android:padding="10sp"
-                android:text="This is just a sample battle message" />
+                android:text="Battle Commence!" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

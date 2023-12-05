@@ -4,70 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.HomeActivity">
+    android:layout_margin="15sp"
+    tools:context=".view.SwitchPokemonActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="15sp"
-        android:layout_marginBottom="30dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Newly Catched Pokemon"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:text="@string/trainer_info"
-                />
+        <LinearLayout
+            android:layout_marginTop="15sp"
+            android:layout_marginBottom="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/switch_pokemon_catched_pokemon_sprite"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                >
-                <ImageView
-                    android:id="@+id/trainer_profile_picture"
-                    android:layout_width="100sp"
-                    android:layout_height="100sp"
-                    />
+                android:layout_gravity="center"
+                android:layout_marginLeft="15sp"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:orientation="vertical"
+                <TextView
+                    android:id="@+id/switch_pokemon_catched_pokemon_level"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-                    <TextView
-                        android:id="@+id/trainer_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:text="trainer name"/>
-                    <TextView
-                        android:id="@+id/trainer_level"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="level"/>
-                    <TextView
-                        android:layout_marginTop="15dp"
-                        android:id="@+id/trainer_exp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="current exp / next exp"/>
-                    <ProgressBar
-                        android:layout_marginTop="5sp"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:id="@+id/trainer_exp_exp_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp" />
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+
+                    android:text="Lv." />
+
+                <TextView
+                    android:id="@+id/switch_pokemon_catched_pokemon_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pokemon Name"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/switch_pokemon_catched_pokemon_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pokemon Type" />
+
+                <TextView
+                    android:id="@+id/switch_pokemon_catched_pokemon_hp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pokemon HP" />
+
+                <ProgressBar
+                    android:id="@+id/switch_pokemon_catched_pokemon_hpbar"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="20sp"
+                    android:minHeight="20sp"
+                    android:scaleY="2" />
+
+                <TextView
+                    android:id="@+id/switch_pokemon_catched_pokemon_attack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pokemon Attack" />
 
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
             <LinearLayout
                 android:layout_marginTop="15sp"
                 android:orientation="vertical"
@@ -166,28 +186,29 @@
                     android:textSize="20sp"
                     android:text="My Party Pokemon"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:text="Release Pokemon to add newly caught to the party"
+                    />
 
                 <ListView
                     android:id="@+id/mypokemon_list"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp" />
+                    android:layout_height="200dp" />
 
             </LinearLayout>
-
         </LinearLayout>
+    </LinearLayout>
 
-    </RelativeLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/menu"
+
+    <Button
+        android:text="Cancel"
         android:layout_alignParentBottom="true"
-        android:id="@+id/bottom_nav"
-        >
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
-
+        android:id="@+id/switch_pokemon_cancel_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

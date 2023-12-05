@@ -25,7 +25,7 @@ public class PokeApiService {
         return pokeApiInterface;
     }
 
-    public static Integer getPokemonByName(String name, OnPokemonLoadedListener listener){
+    public static void getWildPokemonDataFromAPIByName(String name, OnPokemonLoadedListener listener){
         Call<Pokemon> requestPokemon = PokeApiService.getPokeApiInterface().getPokemonByNationalDexId(name);
         requestPokemon.enqueue(new Callback<Pokemon>() {
             @Override
@@ -35,6 +35,7 @@ public class PokeApiService {
                                                     response.body().getName(),
                                                     response.body().getTypes(), response.body().getSprites(),
                                                     AdventureController.getActiveRoute().getMinLevel(), AdventureController.getActiveRoute().getMaxLevel());
+                    Log.d("DEBUG", "pokemon sprites from api event: " + response.body().getSprites().getFrontSprite());
                     listener.onPokemonReceived(pokemon);
                 }
             }
@@ -44,7 +45,31 @@ public class PokeApiService {
                 Log.e("API Error", "Error");
             }
         });
+    }
+    public static void getCapturedPokemonDataFromAPIByName(String name, OnPokemonLoadedListener listener, Integer level, Integer maxHp, Integer attackStats){
+        Log.d("DEBUG", "try call pokemon from api event");
+        Call<Pokemon> requestPokemon = PokeApiService.getPokeApiInterface().getPokemonByNationalDexId(name);
+        requestPokemon.enqueue(new Callback<Pokemon>() {
+            @Override
+            public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                Log.d("DEBUG", "success call pokemon from api event");
+                if(response.isSuccessful() && response.body() != null){
+                    Pokemon pokemon = new Pokemon(response.body().getPokemonId(),
+                            response.body().getName(),
+                            response.body().getTypes(),
+                            level,
+                            response.body().getSprites(),
+                            maxHp,
+                            attackStats);
+                    Log.d("DEBUG", "pokemon sprites from api event: " + response.body().getSprites().getFrontSprite());
+                    listener.onPokemonReceived(pokemon);
+                }
+            }
 
-        return 1;
+            @Override
+            public void onFailure(Call<Pokemon> call, Throwable t) {
+                Log.e("API Error", "Error");
+            }
+        });
     }
 }

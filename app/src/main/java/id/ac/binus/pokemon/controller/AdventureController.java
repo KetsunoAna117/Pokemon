@@ -1,7 +1,12 @@
 package id.ac.binus.pokemon.controller;
 
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+
 import java.util.Vector;
 
+import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.model.Pokemon;
 import id.ac.binus.pokemon.model.Route;
 
@@ -40,7 +45,7 @@ public class AdventureController{
     public static void findEnemy(OnPokemonLoadedListener onPokemonLoadedListener){
         if(enemyPokemon == null){
             Integer randomPokemonIndex = Helper.getRandomNumber(0, getActiveRoute().getAreaPokemonList().size() - 1);
-            PokeApiService.getPokemonByName(getActiveRoute().getAreaPokemonList().get(randomPokemonIndex), onPokemonLoadedListener);
+            PokeApiService.getWildPokemonDataFromAPIByName(getActiveRoute().getAreaPokemonList().get(randomPokemonIndex), onPokemonLoadedListener);
         }
     }
 
@@ -52,43 +57,38 @@ public class AdventureController{
         AdventureController.enemyPokemon = enemyPokemon;
     }
 
-    // MOCKUP DATA
-//    private void getRoute1Pokemon(){
-//        // RESET
-//        retrievedPokemon = new Vector<>();
-//        getPokemonAPICounter = 1;
-//        maxPokemonAPICounter = 3;
-//
-//        // Get all Pokemon from API
-//        PokeApiService.getPokemonByName("bulbasaur", this);
-//        PokeApiService.getPokemonByName("charmander", this);
-//        PokeApiService.getPokemonByName("squirtle", this);
-//
-//        while(true){
-//            if(getPokemonAPICounter >= maxPokemonAPICounter){
-//                routes.add(new Route("Route 1", retrievedPokemon));
-//                break;
-//            }
-//        }
-//
-//    }
-//
-//    private void getRoute2Pokemon(){
-//        // RESET
-//        retrievedPokemon = new Vector<>();
-//        getPokemonAPICounter = 1;
-//        maxPokemonAPICounter = 2;
-//
-//        // Get all Pokemon from API
-//        PokeApiService.getPokemonByName("rayquaza", this);
-//        PokeApiService.getPokemonByName("arceus", this);
-//
-//        while(true){
-//            if(getPokemonAPICounter >= maxPokemonAPICounter){
-//                routes.add(new Route("Route 2", retrievedPokemon));
-//                break;
-//            }
-//        }
-//    }
+    public Boolean catchEnemyPokemonEvent(Pokemon pokemon){
+        if(TrainerController.getActiveTrainerData().getParty().size() >= 6){
+            Log.d("DEBUG", "party is full!");
+            return false;
+        }
+
+        TrainerController.getActiveTrainerData().getParty().add(pokemon);
+        return true;
+    }
+
+    public static Double onPokemonAttackEvent(Pokemon attacking, Pokemon target, ProgressBar targetProgressBar){
+        Double multiplier = calculateDamage(attacking.getTypes().get(0).getTypeName().getName(), target.getTypes().get(0).getTypeName().getName());
+        Double damage = attacking.getAttackStats() * multiplier;
+
+        Integer hpChange = target.getHp() - damage.intValue();
+        if(hpChange > 0){
+            targetProgressBar.setProgress(hpChange, true);
+            target.setHp(hpChange);
+        }
+        else {
+            targetProgressBar.setProgress(0, true);
+            target.setHp(0);
+        }
+        return multiplier;
+
+    }
+
+    public static Double calculateDamage(String typeAttack, String typeDefend){
+        // TODO Add Type Matchup table in SQLLite and write here
+        return 1.0;
+    }
+
+
 
 }

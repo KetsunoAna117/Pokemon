@@ -41,13 +41,13 @@ public class Pokemon implements Cloneable {
     }
 
     // To make an existing pokemon data
-    public Pokemon(Integer pokemonId, String name, List<Type> types, Integer level, Sprites sprites, Integer hp, Integer maxHp, Integer attackStats) {
+    public Pokemon(Integer pokemonId, String name, List<Type> types, Integer level, Sprites sprites, Integer maxHp, Integer attackStats) {
         this.pokemonId = pokemonId;
         this.name = name;
         this.types = types;
         this.level = level;
         this.sprites = sprites;
-        this.hp = hp;
+        this.hp = maxHp;
         this.maxHp = maxHp;
         this.attackStats = attackStats;
     }

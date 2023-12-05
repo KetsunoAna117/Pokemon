@@ -12,6 +12,7 @@ import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
+import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
 import id.ac.binus.pokemon.controller.OnPokemonLoadedListener;
 import id.ac.binus.pokemon.controller.PokeApiService;
 import id.ac.binus.pokemon.controller.TrainerController;
@@ -19,7 +20,7 @@ import id.ac.binus.pokemon.model.Pokemon;
 import id.ac.binus.pokemon.model.Route;
 import id.ac.binus.pokemon.model.Trainer;
 
-public class MainActivity extends AppCompatActivity implements OnPokemonLoadedListener {
+public class MainActivity extends AppCompatActivity {
     private Integer pokemonCounter;
     private ProgressBar loadingProgressBar;
 
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements OnPokemonLoadedLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        playMusic();
 
         loadingProgressBar = findViewById(R.id.main_loading_progress_bar);
         loadingProgressBar.setMax(6);
@@ -45,16 +48,16 @@ public class MainActivity extends AppCompatActivity implements OnPokemonLoadedLi
     }
 
     private void getPokemonDataFromApi(){
+        Log.d("DEBUG", "get pokemon data event");
+        // TODO ADD FIREBASE TO GET SAVED TRAINER DATA HERE
+        TrainerController controller = new TrainerController();
+        controller.getTrainerPokemon(this);
         pokemonCounter = 0;
-        LinkedList<String> pokemonNameList = TrainerController.getTrainerPokemon(TrainerController.getActiveTrainerData().getTrainedId());
-        for(String name: pokemonNameList){
-            PokeApiService.getPokemonByName(name, this);
-        }
+
     }
 
-    @Override
-    public void onPokemonReceived(Pokemon pokemon) {
-        TrainerController.getActiveTrainerData().getParty().add(pokemon);
+    public void onPokemonReceivedEvent() {
+        Log.d("DEBUG", "onPokemonReceived event main");
         pokemonCounter++;
         renderProgressBar(pokemonCounter);
 
@@ -64,6 +67,12 @@ public class MainActivity extends AppCompatActivity implements OnPokemonLoadedLi
             Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(homeIntent);
         }
+    }
+
+    private void playMusic(){
+        MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
+        mediaPlayerSingleton.initializeMediaPlayer(this, R.raw.evergrandecity);
+        mediaPlayerSingleton.startMediaPlayer();
     }
 
 }

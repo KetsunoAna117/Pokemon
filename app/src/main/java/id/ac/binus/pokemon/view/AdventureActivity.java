@@ -3,6 +3,7 @@ package id.ac.binus.pokemon.view;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -22,7 +23,9 @@ import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
+import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
 import id.ac.binus.pokemon.controller.OnPokemonLoadedListener;
+import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
 
 public class AdventureActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnPokemonLoadedListener {
@@ -37,6 +40,7 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adventure);
 
+        playMusic();
         nav = findViewById(R.id.bottom_nav);
         nav.setOnItemSelectedListener(this);
 
@@ -54,6 +58,7 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -71,12 +76,12 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
         return false;
     }
 
+    @SuppressLint("SetTextI18n")
     private void putView(){
         if(AdventureController.getActiveRoute() == null){
             Intent areaSelectionIntent = new Intent(AdventureActivity.this, AreaSelectionActivity.class);
             startActivity(areaSelectionIntent);
         }
-
         else{
             adventure_activity_current_route = (TextView) findViewById(R.id.adventure_activity_current_route);
             adventure_activity_current_route_pokemon = (TextView) findViewById(R.id.adventure_activity_current_route_pokemon);
@@ -98,16 +103,22 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
 
             routePokemonLevel.setText("Lv. " + AdventureController.getActiveRoute().getMinLevel() + " - " + AdventureController.getActiveRoute().getMaxLevel());
 
-            adventure_activity_switch_route_button.setBackgroundColor(Color.WHITE);
-            adventure_activity_switch_route_button.setTextColor(Color.BLUE);
-            adventure_activity_switch_route_button.setStrokeColor(ColorStateList.valueOf(Color.BLUE));
-            adventure_activity_switch_route_button.setStrokeWidth(3);
-            adventure_activity_switch_route_button.setOnClickListener(view -> {
-                Intent areaSelectionIntent = new Intent(AdventureActivity.this, AreaSelectionActivity.class);
-                startActivity(areaSelectionIntent);
-            });
-            adventure_activity_find_pokemon_button.setVisibility(View.VISIBLE);
-
+            // If active pokemon is fainted, user can't start searching for pokemon
+            if(TrainerController.getActiveTrainerData().getActivePokemon().getHp() <= 0){
+                adventure_activity_switch_route_button.setVisibility(View.GONE);
+                adventure_activity_loading_status.setText("Your active pokemon is fainted, please switch your active pokemon");
+            }
+            else {
+                adventure_activity_switch_route_button.setBackgroundColor(Color.WHITE);
+                adventure_activity_switch_route_button.setTextColor(Color.BLUE);
+                adventure_activity_switch_route_button.setStrokeColor(ColorStateList.valueOf(Color.BLUE));
+                adventure_activity_switch_route_button.setStrokeWidth(3);
+                adventure_activity_switch_route_button.setOnClickListener(view -> {
+                    Intent areaSelectionIntent = new Intent(AdventureActivity.this, AreaSelectionActivity.class);
+                    startActivity(areaSelectionIntent);
+                });
+                adventure_activity_find_pokemon_button.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -125,5 +136,10 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
         AdventureController.setEnemyPokemon(pokemon);
         Intent battleIntent = new Intent(AdventureActivity.this, PokemonBattleActivity.class);
         startActivity(battleIntent);
+    }
+
+    private void playMusic(){
+        MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
+        mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.hoenn_victory_road);
     }
 }
