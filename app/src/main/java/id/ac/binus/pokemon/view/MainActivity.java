@@ -29,18 +29,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        playMusic();
+        if(TrainerController.getActiveTrainerData() == null){
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
 
-        loadingProgressBar = findViewById(R.id.main_loading_progress_bar);
-        loadingProgressBar.setMax(6);
+        else{
+            playMusic();
 
         // TODO delete this, it's for placeholder
-        TrainerController.setActiveTrainerData(new Trainer(1, "Hans", "Male", R.drawable.male_trainer));
+        TrainerController.setActiveTrainerData(new Trainer("Hans", "Male", R.drawable.male_trainer));
         TrainerController.getActiveTrainerData().setExp(8);
         Vector<Route> getRoutes = AdventureController.getAllRoutes();
         AdventureController.setActiveRoute(getRoutes.get(0));
 
-        getPokemonDataFromApi();
+            loadingProgressBar = findViewById(R.id.main_loading_progress_bar);
+            loadingProgressBar.setMax(6);
+
+            // TODO delete this, it's for placeholder
+//        TrainerController.setActiveTrainerData(new Trainer("Hans", "Male", R.drawable.male_trainer));
+//        TrainerController.getActiveTrainerData().setExp(8);
+            Vector<Route> getRoutes = AdventureController.getAllRoutes();
+            AdventureController.setActiveRoute(getRoutes.get(0));
+            AdventureController.setEnemyPokemon(null);
+
+            getPokemonDataFromApi();
+        }
     }
 
     private void renderProgressBar(Integer progress){

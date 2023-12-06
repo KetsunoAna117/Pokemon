@@ -17,6 +17,12 @@
             android:name=".view.ItemAdapter"
             android:exported="false" />
         <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.SwitchPokemonActivity"
             android:exported="false" />
         <activity

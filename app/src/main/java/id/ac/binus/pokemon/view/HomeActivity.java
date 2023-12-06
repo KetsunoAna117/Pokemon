@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
 import java.util.Locale;
+import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
@@ -27,6 +28,7 @@ import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
 import id.ac.binus.pokemon.controller.OnPokemonButtonSwitchListener;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
+import id.ac.binus.pokemon.model.Route;
 
 public class HomeActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnPokemonButtonSwitchListener {
     private BottomNavigationView nav;
@@ -60,6 +62,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
                 startActivity(backpackIntent);
                 item.setChecked(true);
                 return true;
+            case R.id.mnLogout:
+                TrainerController.setActiveTrainerData(null);
+                Intent mainIntent = new Intent(HomeActivity.this, MainActivity.class);
+                startActivity(mainIntent);
         }
 
         return false;
