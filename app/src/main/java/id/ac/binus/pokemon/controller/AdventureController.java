@@ -64,6 +64,7 @@ public class AdventureController{
         }
 
         TrainerController.getActiveTrainerData().getParty().add(pokemon);
+        AdventureController.setEnemyPokemon(null);
         return true;
     }
 

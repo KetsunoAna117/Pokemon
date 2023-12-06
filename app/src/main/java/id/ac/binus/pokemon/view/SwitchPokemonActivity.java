@@ -115,6 +115,7 @@ public class SwitchPokemonActivity extends AppCompatActivity implements OnPokemo
         }
         TrainerController.getActiveTrainerData().getParty().add(caughtPokemon);
         TrainerController.removeTrainerPokemon(selectedPokemon);
+        AdventureController.setEnemyPokemon(null);
 
         Intent intent = new Intent(SwitchPokemonActivity.this, HomeActivity.class);
         startActivity(intent);
