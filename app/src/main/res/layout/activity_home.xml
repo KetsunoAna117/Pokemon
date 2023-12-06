@@ -6,188 +6,184 @@
     android:layout_height="match_parent"
     tools:context=".view.HomeActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <LinearLayout
         android:layout_margin="15sp"
-        android:layout_marginBottom="30dp">
+        android:id="@+id/top_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="@string/trainer_info"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            >
+            <ImageView
+                android:id="@+id/trainer_profile_picture"
+                android:layout_width="100sp"
+                android:layout_height="100sp"
+                />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <TextView
+                    android:id="@+id/trainer_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="trainer name"/>
+                <TextView
+                    android:id="@+id/trainer_level"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="level"/>
+                <TextView
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/trainer_exp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="current exp / next exp"/>
+                <ProgressBar
+                    android:layout_marginTop="5sp"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:id="@+id/trainer_exp_exp_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="15sp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:text="@string/trainer_info"
+                android:text="Active Pokemon"
                 />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_marginTop="15sp"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
                 <ImageView
-                    android:id="@+id/trainer_profile_picture"
-                    android:layout_width="100sp"
-                    android:layout_height="100sp"
-                    />
+                    android:id="@+id/mypokemon_active_sprite"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
 
                 <LinearLayout
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginLeft="15sp"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
                     <TextView
-                        android:id="@+id/trainer_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:text="trainer name"/>
+                        android:id="@+id/mypokemon_active_level"
+                        android:text="Lv."
+                        />
+
                     <TextView
-                        android:id="@+id/trainer_level"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="level"/>
+                        android:id="@+id/mypokemon_active_name"
+                        android:text="Pokemon Name"
+                        android:textStyle="bold" />
+
                     <TextView
-                        android:layout_marginTop="15dp"
-                        android:id="@+id/trainer_exp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="current exp / next exp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mypokemon_active_type"
+                        android:text="Pokemon Type"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mypokemon_active_hp"
+                        android:text="Pokemon HP"
+                        />
+
                     <ProgressBar
-                        android:layout_marginTop="5sp"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:id="@+id/trainer_exp_exp_bar"
+                        android:id="@+id/mypokemon_active_hp_hpbar"
                         android:layout_width="match_parent"
-                        android:layout_height="10dp" />
-                </LinearLayout>
+                        android:layout_height="20sp"
+                        android:scaleY="2"
+                        android:minHeight="20sp"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="15sp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="Active Pokemon"
-                    />
-
-                <LinearLayout
-                    android:layout_marginTop="15sp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <ImageView
-                        android:id="@+id/mypokemon_active_sprite"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp" />
-
-                    <LinearLayout
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_marginLeft="15sp"
-                        android:orientation="vertical"
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/mypokemon_active_level"
-                            android:text="Lv."
-                            />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/mypokemon_active_name"
-                            android:text="Pokemon Name"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/mypokemon_active_type"
-                            android:text="Pokemon Type"
-                            />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/mypokemon_active_hp"
-                            android:text="Pokemon HP"
-                            />
-
-                        <ProgressBar
-                            android:id="@+id/mypokemon_active_hp_hpbar"
-                            android:layout_width="match_parent"
-                            android:layout_height="20sp"
-                            android:scaleY="2"
-                            android:minHeight="20sp"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/mypokemon_active_attack"
-                            android:text="Pokemon Attack"
-                            />
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mypokemon_active_attack"
+                        android:text="Pokemon Attack"
+                        />
 
                 </LinearLayout>
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="My Party Pokemon"
-                    />
-
-                <ListView
-                    android:id="@+id/mypokemon_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/my_party_pokemon_title_container"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/menu"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/bottom_nav"
-        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="My Party Pokemon"
+                />
 
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+        <ListView
+            android:layout_marginEnd="15sp"
+            android:layout_marginStart="15sp"
+            android:layout_above="@+id/bottom_nav"
+            android:layout_below="@id/top_container"
+            android:id="@+id/mypokemon_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/menu"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/bottom_nav"
+            >
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 
 </RelativeLayout>

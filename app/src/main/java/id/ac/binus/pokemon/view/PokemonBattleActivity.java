@@ -25,9 +25,11 @@ import com.squareup.picasso.Picasso;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
+import id.ac.binus.pokemon.controller.BackpackController;
 import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
+import id.ac.binus.pokemon.model.items.Item;
 
 public class PokemonBattleActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     private BottomNavigationView nav;
@@ -266,8 +268,10 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
                 playVictoryMusic();
                 onActionUpdateBattleMessage(AdventureController.getEnemyPokemon().getName() + " is fainted");
                 adventure_activity_continue_button.setOnClickListener((event_3) -> {
+                    Item item = BackpackController.getItemReward();
                     onActionUpdateBattleMessage("You win the battle! \n" +
-                            "You got 5 Trainer EXP!");
+                            "You got 5 Trainer EXP! \n" +
+                            "You got 1 " + item.getName().toUpperCase());
 
                     adventure_activity_continue_button.setOnClickListener(event_4 -> {
                         TrainerController.addTrainerExp();

@@ -6,17 +6,132 @@
     android:layout_height="match_parent"
     tools:context=".view.BackpackActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
+        android:layout_margin="15sp"
+        android:id="@+id/active_pokemon_view"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginTop="15sp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="Active Pokemon"
+                />
+
+            <LinearLayout
+                android:layout_marginTop="15sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/mypokemon_active_sprite"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
+
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginLeft="15sp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mypokemon_active_level"
+                        android:text="Lv."
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mypokemon_active_name"
+                        android:text="Pokemon Name"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mypokemon_active_type"
+                        android:text="Pokemon Type"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mypokemon_active_hp"
+                        android:text="Pokemon HP"
+                        />
+
+                    <ProgressBar
+                        android:id="@+id/mypokemon_active_hp_hpbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="20sp"
+                        android:scaleY="2"
+                        android:minHeight="20sp"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mypokemon_active_attack"
+                        android:text="Pokemon Attack"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_margin="15sp"
+        android:layout_below="@+id/active_pokemon_view"
+        android:id="@+id/backpack_my_items_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/title_myitems_tv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello Bitch, it's Backpack activity"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="My Items"
+            />
+        <TextView
+            android:layout_below="@id/title_myitems_tv"
+            android:id="@+id/desc_myitems_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="Select an item to use for the active pokemon"
             />
 
-    </LinearLayout>
+    </RelativeLayout>
+
+    <ListView
+        android:layout_marginStart="15sp"
+        android:layout_marginEnd="15sp"
+        android:layout_below="@+id/backpack_my_items_title_container"
+        android:layout_above="@+id/bottom_nav"
+        android:id="@+id/backpack_items_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         loadingProgressBar.setMax(6);
 
         // TODO delete this, it's for placeholder
-        TrainerController.setActiveTrainerData(new Trainer("Hans", "Male", R.drawable.male_trainer));
+        TrainerController.setActiveTrainerData(new Trainer(1, "Hans", "Male", R.drawable.male_trainer));
         TrainerController.getActiveTrainerData().setExp(8);
         Vector<Route> getRoutes = AdventureController.getAllRoutes();
         AdventureController.setActiveRoute(getRoutes.get(0));
