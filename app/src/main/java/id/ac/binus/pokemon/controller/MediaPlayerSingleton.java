@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 public class MediaPlayerSingleton {
     private static MediaPlayerSingleton instance;
     private MediaPlayer music;
+    private int currentMusicResourceId;
 
     private MediaPlayerSingleton(){
         music = new MediaPlayer();
@@ -25,6 +26,7 @@ public class MediaPlayerSingleton {
         if (music == null) {
             music = MediaPlayer.create(context, resourceId);
             music.setLooping(true); // Set looping if you want continuous playback
+            currentMusicResourceId = resourceId;
         }
     }
 
@@ -54,11 +56,21 @@ public class MediaPlayerSingleton {
 
         initializeMediaPlayer(context, newMusicId); // Initialize with new source
         startMediaPlayer(); // Start playing the new source
+        currentMusicResourceId = newMusicId;
     }
 
     public void setMediaPlayerVolume(float volume) {
         if (music != null) {
             music.setVolume(volume, volume);
         }
+    }
+
+    // function to get music playing now
+    public int getCurrentMusic() {
+        if (music != null) {
+            return this.currentMusicResourceId;
+        }
+        return -1;
+
     }
 }

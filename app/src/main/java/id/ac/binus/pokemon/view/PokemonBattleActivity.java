@@ -333,12 +333,14 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
 
     private void playBattleMusic(){
         MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
-        mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.battle_kanto);
+        if(mediaPlayerSingleton.getCurrentMusic() != R.raw.battle_kanto)
+            mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.battle_kanto);
     }
 
     private void playVictoryMusic(){
         MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
-        mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.victory_kanto);
+        if(mediaPlayerSingleton.getCurrentMusic() != R.raw.victory_kanto)
+            mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.victory_kanto);
     }
 
 }

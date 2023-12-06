@@ -140,6 +140,10 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
 
     private void playMusic(){
         MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
-        mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.hoenn_victory_road);
+
+        if(mediaPlayerSingleton.getCurrentMusic() != R.raw.hoenn_victory_road){
+            mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.hoenn_victory_road);
+        }
+
     }
 }

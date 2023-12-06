@@ -133,7 +133,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
 
     private void playMusic(){
         MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
-        mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.evergrandecity);
+        if(mediaPlayerSingleton.getCurrentMusic() != R.raw.evergrandecity)
+            mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.evergrandecity);
     }
 
 }
