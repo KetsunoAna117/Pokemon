@@ -17,12 +17,12 @@ public class Trainer {
     private LinkedList<Pokemon> party;
     private Vector<Item> backpack;
 
-    public Trainer(String name, String gender, Integer profilePicture) {
+    public Trainer(String name, String gender, Integer profilePicture, Integer level) {
         this.trainedId = 1;
         this.name = name;
         this.gender = gender;
         this.profilePicture = profilePicture;
-        this.level = 10;
+        this.level = level;
         this.exp = 0;
         this.baseExp = 20;
         this.backpack = new Vector<>();

@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
     ImageView imgData;
     EditText userData, passData;
-    Button btn;
+    Button loginBtn, regisBtn;
     DatabaseReference userRef, mDatabase;
     FirebaseDatabase db;
 
@@ -37,14 +37,23 @@ public class LoginActivity extends AppCompatActivity {
         imgData = findViewById(R.id.pokeLogo);
         userData = findViewById(R.id.userET);
         passData = findViewById(R.id.passET);
-        btn = findViewById(R.id.btn);
+        loginBtn = findViewById(R.id.loginBtn);
+        regisBtn = findViewById(R.id.regisBtn);
 
         imgData.setImageResource(R.drawable.pokemon_logo);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loginUser();
+            }
+        });
+
+        regisBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -75,10 +84,10 @@ public class LoginActivity extends AppCompatActivity {
                         assert gender != null;
 
                         if(gender.equals("male")){
-                            TrainerController.setActiveTrainerData(new Trainer(userName, "Male", R.drawable.male_trainer));
+                            TrainerController.setActiveTrainerData(new Trainer(userName, "Male", R.drawable.male_trainer, 1));
                         }
                         else if(gender.equals("female")){
-                            TrainerController.setActiveTrainerData(new Trainer(userName, "Female", R.drawable.female_trainer));
+                            TrainerController.setActiveTrainerData(new Trainer(userName, "Female", R.drawable.female_trainer, 1));
                         }
 
                         TrainerController.getActiveTrainerData().setExp(0);

@@ -1,6 +1,15 @@
 package id.ac.binus.pokemon.controller;
 
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -8,15 +17,19 @@ import java.util.LinkedList;
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.model.Pokemon;
 import id.ac.binus.pokemon.model.Trainer;
+import id.ac.binus.pokemon.view.LoginActivity;
 import id.ac.binus.pokemon.view.MainActivity;
 import id.ac.binus.pokemon.view.RegisterActivity;
 import id.ac.binus.pokemon.view.StarterActivity;
+import com.google.firebase.database.DataSnapshot;
 
 public class TrainerController implements OnPokemonLoadedListener {
     private static ArrayList<Pokemon> starterList;
     private static Trainer activeTrainerData;
     private MainActivity mainListener;
     private RegisterActivity starterListener;
+    DatabaseReference userRef;
+    FirebaseDatabase db;
 
     public static Trainer getActiveTrainerData() {
         return activeTrainerData;
@@ -29,19 +42,31 @@ public class TrainerController implements OnPokemonLoadedListener {
     public void getTrainerPokemon(MainActivity mainListener){
         this.mainListener = mainListener;
 
-        // TODO mockup data, fill with SQL here
-        LinkedList<String> pokemonIdList = new LinkedList<String>();
-        pokemonIdList.add("glaceon");
-        pokemonIdList.add("aggron");
-        pokemonIdList.add("breloom");
-        pokemonIdList.add("flygon");
-        pokemonIdList.add("gardevoir");
-        pokemonIdList.add("swampert");
+        db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
-        for(String name: pokemonIdList){
-            // TODO LEVEL, MAX HP, AND ATTACK STATS SHOULD BE REPLACED USING THE DATA FROM DATABASE
-            PokeApiService.getCapturedPokemonDataFromAPIByName(name, this, 100, 50,  5);
-        }
+        String user = activeTrainerData.getName() + "'s pokemon";
+
+        userRef = db.getReference().child(user);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                        String pokemonName = childSnapshot.child("pokemonName").getValue(String.class);
+                        Integer pokemonLevel = childSnapshot.child("pokemonLevel").getValue(Integer.class);
+                        Integer pokemonAttack = childSnapshot.child("pokemonAttack").getValue(Integer.class);
+                        Integer pokemonMaxHP = childSnapshot.child("pokemonMaxHP").getValue(Integer.class);
+                        PokeApiService.getCapturedPokemonDataFromAPIByName(pokemonName, TrainerController.this, pokemonLevel, pokemonMaxHP, pokemonAttack);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void getStarterPokemon(RegisterActivity starterListener){

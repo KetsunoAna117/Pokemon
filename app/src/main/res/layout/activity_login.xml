@@ -46,11 +46,18 @@
         android:layout_marginBottom="20dp"/>
 
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/loginBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
         android:layout_below="@id/passET"/>
+
+    <Button
+        android:id="@+id/regisBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register here"
+        android:layout_below="@id/loginBtn"/>
 
 
 

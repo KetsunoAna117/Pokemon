@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if(TrainerController.getActiveTrainerData() == null){
-            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         pokemonCounter++;
         renderProgressBar(pokemonCounter);
 
-        if(pokemonCounter == 6){
+        if(pokemonCounter > 0){
             TrainerController.getActiveTrainerData().setActivePokemon(TrainerController.getActiveTrainerData().getParty().get(0));
             // After get done, load home
             Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);

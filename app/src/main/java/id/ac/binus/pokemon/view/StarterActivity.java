@@ -82,14 +82,6 @@ public class StarterActivity extends AppCompatActivity {
                 pokeData.put("pokemonMaxHP", pokeMaxHP);
                 pokeData.put("pokemonHP", pokeHP);
 
-//                Dummy checking
-                HashMap<String, Object> pokeData2 = new HashMap<>();
-                pokeData2.put("pokemonName", "charmander");
-                pokeData2.put("pokemonLevel", pokeLvl);
-                pokeData2.put("pokemonType", "fire");
-                pokeData2.put("pokemonAttack", pokeAtk);
-                pokeData2.put("pokemonMaxHP", pokeMaxHP);
-                pokeData2.put("pokemonHP", pokeHP);
 
 //                Item not done
 //                HashMap<String, Object> item = new HashMap<>();
@@ -103,7 +95,6 @@ public class StarterActivity extends AppCompatActivity {
                 pokeRef = db.getReference(user + "'s pokemon");
 
                 pokeRef.child(pokeName).setValue(pokeData);
-//                pokeRef.child("charmander").setValue(pokeData2);
 
                 userRef.child(user).setValue(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
