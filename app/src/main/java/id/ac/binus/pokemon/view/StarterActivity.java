@@ -59,6 +59,8 @@ public class StarterActivity extends AppCompatActivity {
 
                 String user = intent.getStringExtra("user");
                 String pass = intent.getStringExtra("pass");
+                String gender = intent.getStringExtra("gender");
+
                 String pokeName = chosen.getName();
                 Integer pokeLvl = chosen.getLevel();
                 String pokeType = chosen.getTypes().get(0).getTypeName().getName();
@@ -69,7 +71,9 @@ public class StarterActivity extends AppCompatActivity {
                 HashMap<String, Object> userData = new HashMap<>();
                 userData.put("user", user);
                 userData.put("pass", pass);
+                userData.put("gender", gender);
 
+//                Starter
                 HashMap<String, Object> pokeData = new HashMap<>();
                 pokeData.put("pokemonName", pokeName);
                 pokeData.put("pokemonLevel", pokeLvl);
@@ -78,6 +82,7 @@ public class StarterActivity extends AppCompatActivity {
                 pokeData.put("pokemonMaxHP", pokeMaxHP);
                 pokeData.put("pokemonHP", pokeHP);
 
+//                Dummy checking
                 HashMap<String, Object> pokeData2 = new HashMap<>();
                 pokeData2.put("pokemonName", "charmander");
                 pokeData2.put("pokemonLevel", pokeLvl);
@@ -86,6 +91,7 @@ public class StarterActivity extends AppCompatActivity {
                 pokeData2.put("pokemonMaxHP", pokeMaxHP);
                 pokeData2.put("pokemonHP", pokeHP);
 
+//                Item not done
 //                HashMap<String, Object> item = new HashMap<>();
 //                pokeData2.put("pokemonName", "charmander");
 //                pokeData2.put("pokemonLevel", pokeLvl);
@@ -96,15 +102,15 @@ public class StarterActivity extends AppCompatActivity {
                 userRef = db.getReference("users");
                 pokeRef = db.getReference(user + "'s pokemon");
 
-                String trainerId = userRef.push().getKey();
-
                 pokeRef.child(pokeName).setValue(pokeData);
-                pokeRef.child("charmander").setValue(pokeData2);
+//                pokeRef.child("charmander").setValue(pokeData2);
 
-                userRef.child(trainerId).setValue(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                userRef.child(user).setValue(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(StarterActivity.this, "Trainer Data successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(StarterActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 });
 
