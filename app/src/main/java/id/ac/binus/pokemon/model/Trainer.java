@@ -17,8 +17,8 @@ public class Trainer {
     private LinkedList<Pokemon> party;
     private Vector<Item> backpack;
 
-    public Trainer(Integer id, String name, String gender, Integer profilePicture) {
-        this.trainedId = id;
+    public Trainer(String name, String gender, Integer profilePicture) {
+        this.trainedId = 1;
         this.name = name;
         this.gender = gender;
         this.profilePicture = profilePicture;

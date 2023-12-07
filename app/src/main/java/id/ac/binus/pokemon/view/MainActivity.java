@@ -30,18 +30,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if(TrainerController.getActiveTrainerData() == null){
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
             startActivity(intent);
         }
 
         else{
             playMusic();
-
-        // TODO delete this, it's for placeholder
-        TrainerController.setActiveTrainerData(new Trainer("Hans", "Male", R.drawable.male_trainer));
-        TrainerController.getActiveTrainerData().setExp(8);
-        Vector<Route> getRoutes = AdventureController.getAllRoutes();
-        AdventureController.setActiveRoute(getRoutes.get(0));
 
             loadingProgressBar = findViewById(R.id.main_loading_progress_bar);
             loadingProgressBar.setMax(6);

@@ -138,6 +138,11 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
         startActivity(battleIntent);
     }
 
+    @Override
+    public void onStarterReceived(Pokemon pokemon) {
+
+    }
+
     private void playMusic(){
         MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
 

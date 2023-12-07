@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "456531297373",
+    "project_id": "pokemon-f8040",
+    "storage_bucket": "pokemon-f8040.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456531297373:android:cd28de58727a9ec592b9b4",
+        "android_client_info": {
+          "package_name": "id.ac.binus.pokemon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvTAu17VeHz4GFnOPPFQRmgde5Byy7RfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
