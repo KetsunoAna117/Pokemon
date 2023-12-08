@@ -347,4 +347,11 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
             mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.victory_kanto);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
+        mediaPlayerSingleton.releaseMediaPlayer();
+    }
+
 }

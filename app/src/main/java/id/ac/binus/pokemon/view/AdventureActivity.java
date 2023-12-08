@@ -151,4 +151,11 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
         }
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
+        mediaPlayerSingleton.releaseMediaPlayer();
+    }
 }

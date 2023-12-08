@@ -80,4 +80,11 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayerSingleton.startMediaPlayer();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
+        mediaPlayerSingleton.releaseMediaPlayer();
+    }
+
 }

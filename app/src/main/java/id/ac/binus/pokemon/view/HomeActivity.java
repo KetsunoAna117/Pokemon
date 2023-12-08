@@ -143,4 +143,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
             mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.evergrandecity);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
+        mediaPlayerSingleton.releaseMediaPlayer();
+    }
+
 }
