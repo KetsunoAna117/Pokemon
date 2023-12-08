@@ -7,18 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
 
-import java.util.LinkedList;
 import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
+import id.ac.binus.pokemon.controller.BackpackController;
 import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
-import id.ac.binus.pokemon.controller.OnPokemonLoadedListener;
-import id.ac.binus.pokemon.controller.PokeApiService;
 import id.ac.binus.pokemon.controller.TrainerController;
-import id.ac.binus.pokemon.model.Pokemon;
 import id.ac.binus.pokemon.model.Route;
-import id.ac.binus.pokemon.model.Trainer;
 
 public class MainActivity extends AppCompatActivity {
     private Integer pokemonCounter;
@@ -43,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
             Vector<Route> getRoutes = AdventureController.getAllRoutes();
             AdventureController.setActiveRoute(getRoutes.get(0));
             AdventureController.setEnemyPokemon(null);
+
+            // backpack have to be initialized here (declare)
+            // or it can cause error when the user immediately battle
+            // before opening backpack
+            // The init used to be when user opening backpack
+            BackpackController.initItem();
 
             getPokemonDataFromApi();
         }

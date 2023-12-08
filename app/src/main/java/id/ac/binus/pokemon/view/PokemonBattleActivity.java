@@ -269,9 +269,17 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
                 onActionUpdateBattleMessage(AdventureController.getEnemyPokemon().getName() + " is fainted");
                 adventure_activity_continue_button.setOnClickListener((event_3) -> {
                     Item item = BackpackController.getItemReward();
-                    onActionUpdateBattleMessage("You win the battle! \n" +
-                            "You got 5 Trainer EXP! \n" +
-                            "You got 1 " + item.getName().toUpperCase());
+                    if(item != null){
+                        onActionUpdateBattleMessage("You win the battle! \n" +
+                                "You got 5 Trainer EXP! \n" +
+                                "You got 1 " + item.getName().toUpperCase());
+                    }
+                    else{
+                        onActionUpdateBattleMessage("You win the battle! \n" +
+                                "You got 5 Trainer EXP! \n" +
+                                "You got 1 ERROR");
+                    }
+
 
                     adventure_activity_continue_button.setOnClickListener(event_4 -> {
                         TrainerController.addTrainerExp();
