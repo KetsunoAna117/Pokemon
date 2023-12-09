@@ -68,12 +68,20 @@ public class StarterActivity extends AppCompatActivity {
                 Integer pokeMaxHP = chosen.getMaxHp();
                 Integer pokeHP = chosen.getMaxHp();
 
+                db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                userRef = db.getReference("users");
+                pokeRef = db.getReference(user + "'s pokemon");
+                itemRef = db.getReference(user + "'s backpack");
+
                 HashMap<String, Object> userData = new HashMap<>();
                 userData.put("user", user);
                 userData.put("pass", pass);
                 userData.put("gender", gender);
 
 //                Starter
+                DatabaseReference newChildRef = pokeRef.push();
+                String key = newChildRef.getKey();
+
                 HashMap<String, Object> pokeData = new HashMap<>();
                 pokeData.put("pokemonName", pokeName);
                 pokeData.put("pokemonLevel", pokeLvl);
@@ -83,33 +91,13 @@ public class StarterActivity extends AppCompatActivity {
                 pokeData.put("pokemonHP", pokeHP);
 
 //                Item
-                HashMap<String, Object> hpUpData = new HashMap<>();
-                hpUpData.put("itemId", 1);
-                hpUpData.put("itemQuantity", 0);
+                HashMap<String, Object> hpUpData = createItemData(1);
+                HashMap<String, Object> potionData = createItemData(2);
+                HashMap<String, Object> proteinData = createItemData(3);
+                HashMap<String, Object> rareCandyData = createItemData(4);
+                HashMap<String, Object> reviveData = createItemData(5);
 
-                HashMap<String, Object> potionData = new HashMap<>();
-                potionData.put("itemId", 2);
-                potionData.put("itemQuantity", 0);
-
-                HashMap<String, Object> proteinData = new HashMap<>();
-                proteinData.put("itemId", 3);
-                proteinData.put("itemQuantity", 0);
-
-                HashMap<String, Object> rareCandyData = new HashMap<>();
-                rareCandyData.put("itemId", 4);
-                rareCandyData.put("itemQuantity", 0);
-
-                HashMap<String, Object> reviveData = new HashMap<>();
-                reviveData.put("itemId", 5);
-                reviveData.put("itemQuantity", 0);
-
-                db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                userRef = db.getReference("users");
-                pokeRef = db.getReference(user + "'s pokemon");
-                itemRef = db.getReference(user + "'s backpack");
-
-
-                pokeRef.child(pokeName).setValue(pokeData);
+                pokeRef.child(key).setValue(pokeData);
                 itemRef.child("Hp Up").setValue(hpUpData);
                 itemRef.child("Potion").setValue(potionData);
                 itemRef.child("Protein").setValue(proteinData);
@@ -129,6 +117,13 @@ public class StarterActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private HashMap<String, Object> createItemData(int itemId) {
+        HashMap<String, Object> itemData = new HashMap<>();
+        itemData.put("itemId", itemId);
+        itemData.put("itemQuantity", 0);
+        return itemData;
     }
 
 

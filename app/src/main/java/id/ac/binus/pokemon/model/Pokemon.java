@@ -13,7 +13,7 @@ import id.ac.binus.pokemon.model.pokemon_attribute.Type;
 
 public class Pokemon implements Cloneable {
     @SerializedName("id")
-    private Integer pokemonId;
+    private String pokemonId;
     @SerializedName("name")
     private String name;
 
@@ -28,7 +28,7 @@ public class Pokemon implements Cloneable {
     private Integer attackStats;
 
     // To initialize random pokemon encounter
-    public Pokemon(Integer pokemonId, String name, List<Type> types, Sprites sprites, Integer minLevel, Integer maxLvl) {
+    public Pokemon(String pokemonId, String name, List<Type> types, Sprites sprites, Integer minLevel, Integer maxLvl) {
         this.name = name;
         this.level = Helper.getRandomNumber(minLevel, maxLvl);
         this.sprites = sprites;
@@ -41,7 +41,7 @@ public class Pokemon implements Cloneable {
     }
 
     // To make an existing pokemon data
-    public Pokemon(Integer pokemonId, String name, List<Type> types, Integer level, Sprites sprites, Integer maxHp, Integer attackStats) {
+    public Pokemon(String pokemonId, String name, List<Type> types, Integer level, Sprites sprites, Integer maxHp, Integer attackStats) {
         this.pokemonId = pokemonId;
         this.name = name;
         this.types = types;
@@ -60,11 +60,11 @@ public class Pokemon implements Cloneable {
         return types;
     }
 
-    public Integer getPokemonId() {
+    public String getPokemonId() {
         return pokemonId;
     }
 
-    public void setPokemonId(Integer pokemonId) {
+    public void setPokemonId(String pokemonId) {
         this.pokemonId = pokemonId;
     }
 

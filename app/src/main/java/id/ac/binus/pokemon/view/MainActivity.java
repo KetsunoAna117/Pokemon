@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void getPokemonDataFromApi(){
         Log.d("DEBUG", "get pokemon data event");
-        // TODO ADD FIREBASE TO GET SAVED TRAINER DATA HERE
         TrainerController controller = new TrainerController();
         controller.getTrainerPokemon(this);
         pokemonCounter = 0;

@@ -1,14 +1,26 @@
 package id.ac.binus.pokemon.controller;
 
+import android.content.Intent;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.model.Pokemon;
 import id.ac.binus.pokemon.model.Route;
+import id.ac.binus.pokemon.view.HomeActivity;
+import id.ac.binus.pokemon.view.SwitchPokemonActivity;
 
 public class AdventureController{
     private static Route activeRoute = null;
@@ -63,8 +75,33 @@ public class AdventureController{
             return false;
         }
 
-        TrainerController.getActiveTrainerData().getParty().add(pokemon);
-        AdventureController.setEnemyPokemon(null);
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
+
+        String user = TrainerController.getActiveTrainerData().getName();
+
+        DatabaseReference pokeRef = db.getReference(user + "'s pokemon");
+
+        DatabaseReference newChildRef = pokeRef.push();
+        String key = newChildRef.getKey();
+
+        pokemon.setPokemonId(key);
+
+        HashMap<String, Object> pokeData = new HashMap<>();
+        pokeData.put("pokemonName", pokemon.getName());
+        pokeData.put("pokemonLevel", pokemon.getLevel());
+        pokeData.put("pokemonType", pokemon.getTypes().get(0).getTypeName().getName());
+        pokeData.put("pokemonAttack", pokemon.getAttackStats());
+        pokeData.put("pokemonMaxHP", pokemon.getMaxHp());
+        pokeData.put("pokemonHP", pokemon.getHp());
+
+        pokeRef.child(key).setValue(pokeData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                TrainerController.getActiveTrainerData().getParty().add(pokemon);
+                AdventureController.setEnemyPokemon(null);
+            }
+        });
+
         return true;
     }
 

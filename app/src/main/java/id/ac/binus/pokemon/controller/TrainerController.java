@@ -53,11 +53,12 @@ public class TrainerController implements OnPokemonLoadedListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                        String pokemonId = childSnapshot.getKey();
                         String pokemonName = childSnapshot.child("pokemonName").getValue(String.class);
                         Integer pokemonLevel = childSnapshot.child("pokemonLevel").getValue(Integer.class);
                         Integer pokemonAttack = childSnapshot.child("pokemonAttack").getValue(Integer.class);
                         Integer pokemonMaxHP = childSnapshot.child("pokemonMaxHP").getValue(Integer.class);
-                        PokeApiService.getCapturedPokemonDataFromAPIByName(pokemonName, TrainerController.this, pokemonLevel, pokemonMaxHP, pokemonAttack);
+                        PokeApiService.getCapturedPokemonDataFromAPIByName(pokemonId, pokemonName, TrainerController.this, pokemonLevel, pokemonMaxHP, pokemonAttack);
                     }
                 }
             }
@@ -85,8 +86,15 @@ public class TrainerController implements OnPokemonLoadedListener {
     }
 
     public static void removeTrainerPokemon(Pokemon toDeletePokemon){
-        // TODO ADD SQL LOGIC TO DELETE POKEMON HERE
         activeTrainerData.getParty().remove(toDeletePokemon);
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
+
+        String user = TrainerController.getActiveTrainerData().getName();
+
+        DatabaseReference pokeRef = db.getReference(user + "'s pokemon");
+
+        pokeRef.child(toDeletePokemon.getPokemonId()).removeValue();
     }
 
     @Override

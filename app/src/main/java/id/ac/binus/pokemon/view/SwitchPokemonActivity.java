@@ -1,19 +1,27 @@
 package id.ac.binus.pokemon.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
 
@@ -117,7 +125,35 @@ public class SwitchPokemonActivity extends AppCompatActivity implements OnPokemo
         TrainerController.removeTrainerPokemon(selectedPokemon);
         AdventureController.setEnemyPokemon(null);
 
-        Intent intent = new Intent(SwitchPokemonActivity.this, HomeActivity.class);
-        startActivity(intent);
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
+
+        String user = TrainerController.getActiveTrainerData().getName();
+
+        DatabaseReference pokeRef = db.getReference(user + "'s pokemon");
+
+        pokeRef.child(selectedPokemon.getPokemonId()).removeValue();
+
+        Log.d("DEBUG", selectedPokemon.getPokemonId());
+
+        DatabaseReference newChildRef = pokeRef.push();
+        String key = newChildRef.getKey();
+
+        caughtPokemon.setPokemonId(key);
+        HashMap<String, Object> pokeData = new HashMap<>();
+        pokeData.put("pokemonName", caughtPokemon.getName());
+        pokeData.put("pokemonLevel", caughtPokemon.getLevel());
+        pokeData.put("pokemonType", caughtPokemon.getTypes().get(0).getTypeName().getName());
+        pokeData.put("pokemonAttack", caughtPokemon.getAttackStats());
+        pokeData.put("pokemonMaxHP", caughtPokemon.getMaxHp());
+        pokeData.put("pokemonHP", caughtPokemon.getHp());
+
+        pokeRef.child(key).setValue(pokeData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(SwitchPokemonActivity.this, "Switch Pokemon successful", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SwitchPokemonActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
