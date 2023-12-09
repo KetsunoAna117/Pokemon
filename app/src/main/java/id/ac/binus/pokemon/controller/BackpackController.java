@@ -2,11 +2,20 @@ package id.ac.binus.pokemon.controller;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
 import id.ac.binus.pokemon.model.Pokemon;
+import id.ac.binus.pokemon.model.Trainer;
 import id.ac.binus.pokemon.model.items.HpUp;
 import id.ac.binus.pokemon.model.items.Item;
 import id.ac.binus.pokemon.model.items.Potion;
@@ -16,32 +25,53 @@ import id.ac.binus.pokemon.model.items.Revive;
 
 public class BackpackController {
     private static HashMap<Integer, Item> backpack;
-    public static Vector<Item> getTrainerBackpackData(Integer trainerId){
-        // TODO ADD SQL TO GET BACKPACK ITEM BY TRAINER ID
+    static FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    static String user = TrainerController.getActiveTrainerData().getName() + "'s backpack";
+    static DatabaseReference itemRef = db.getReference().child(user);
+
+    public static Vector<Item> getTrainerBackpackData(){
 
         Collection<Item> values = backpack.values();
         return new Vector<Item>(values);
     }
+    public static void loadTrainerBackpackData(){
 
-    // TODO this is just for mockup data, delete this later.
-    private static Boolean initFlag = false;
-    public static void initItem(){
-        if(!initFlag){
-            backpack = new HashMap<>();
-            Item potion = new Potion(99);
-            Item protein = new Protein(99);
-            Item rareCandy = new RareCandy( 5);
-            Item hpup = new HpUp(99);
-            Item revive = new Revive(10);
+        backpack = new HashMap<>();
 
-            backpack.put(potion.getId(), potion);
-            backpack.put(protein.getId(), protein);
-            backpack.put(rareCandy.getId(), rareCandy);
-            backpack.put(hpup.getId(), hpup);
-            backpack.put(revive.getId(), revive);
+        itemRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                        Integer itemId = childSnapshot.child("itemId").getValue(Integer.class);
+                        Integer itemQuantity = childSnapshot.child("itemQuantity").getValue(Integer.class);
+                        switch(itemId){
+                            case 1:
+                                backpack.put(1, new HpUp(itemQuantity));
+                                break;
+                            case 2:
+                                backpack.put(2, new Potion(itemQuantity));
+                                break;
+                            case 3:
+                                backpack.put(3, new Protein(itemQuantity));
+                                break;
+                            case 4:
+                                backpack.put(4, new RareCandy(itemQuantity));
+                                break;
+                            case 5:
+                                backpack.put(5, new Revive(itemQuantity));
+                                break;
 
-            initFlag = true;
-        }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 //    public static Integer getItemIndexFromBackpack(Item selectedItem){
@@ -58,8 +88,15 @@ public class BackpackController {
     public static Boolean useItem(Item selectedItem, Pokemon selectedPokemon){
         if(selectedItem.getQuantity() > 0){
             Boolean statusIsTrue = selectedItem.useItem(selectedPokemon);
+
+            Integer qty = selectedItem.getQuantity() - 1;
+
             if(statusIsTrue){
-                selectedItem.setQuantity(selectedItem.getQuantity() - 1);
+
+                itemRef.child(selectedItem.getName()).child("itemQuantity").setValue(qty);
+
+                selectedItem.setQuantity(qty);
+
                 return true;
             }
             return false;
@@ -70,19 +107,17 @@ public class BackpackController {
     public static Item getItemReward(){
         Integer dropItemId = Helper.getRandomNumber(1, backpack.size());
         Log.d("DEBUG", "DROP ITEM RANDOMIZED ID: " + dropItemId);
-        if(backpack.containsKey(dropItemId)){
-            Item selectedItem = backpack.get(dropItemId);
-            selectedItem.setQuantity(selectedItem.getQuantity() + 1);
+        Item selectedItem = backpack.get(dropItemId);
+        if(selectedItem != null){
+
+            Integer qty = selectedItem.getQuantity() + 1;
+
+            selectedItem.setQuantity(qty);
+
+            itemRef.child(selectedItem.getName()).child("itemQuantity").setValue(qty);
+
             return selectedItem;
         }
         return null;
-
-//        for(Item i: backpack){
-//            if(i.getId().equals(dropItemId)){
-//                i.setQuantity(i.getQuantity() + 1);
-//                return i;
-//            }
-//        }
-
     }
 }

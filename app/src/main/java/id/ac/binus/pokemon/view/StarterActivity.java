@@ -31,7 +31,7 @@ public class StarterActivity extends AppCompatActivity {
 
     private ListView starter_listview;
     FirebaseDatabase db;
-    DatabaseReference userRef, pokeRef;
+    DatabaseReference userRef, pokeRef, itemRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,19 +82,39 @@ public class StarterActivity extends AppCompatActivity {
                 pokeData.put("pokemonMaxHP", pokeMaxHP);
                 pokeData.put("pokemonHP", pokeHP);
 
+//                Item
+                HashMap<String, Object> hpUpData = new HashMap<>();
+                hpUpData.put("itemId", 1);
+                hpUpData.put("itemQuantity", 0);
 
-//                Item not done
-//                HashMap<String, Object> item = new HashMap<>();
-//                pokeData2.put("pokemonName", "charmander");
-//                pokeData2.put("pokemonLevel", pokeLvl);
-//                pokeData2.put("pokemonType", "fire");
-//                pokeData2.put("pokemonAttack", pokeAtk);
+                HashMap<String, Object> potionData = new HashMap<>();
+                potionData.put("itemId", 2);
+                potionData.put("itemQuantity", 0);
+
+                HashMap<String, Object> proteinData = new HashMap<>();
+                proteinData.put("itemId", 3);
+                proteinData.put("itemQuantity", 0);
+
+                HashMap<String, Object> rareCandyData = new HashMap<>();
+                rareCandyData.put("itemId", 4);
+                rareCandyData.put("itemQuantity", 0);
+
+                HashMap<String, Object> reviveData = new HashMap<>();
+                reviveData.put("itemId", 5);
+                reviveData.put("itemQuantity", 0);
 
                 db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
                 userRef = db.getReference("users");
                 pokeRef = db.getReference(user + "'s pokemon");
+                itemRef = db.getReference(user + "'s backpack");
+
 
                 pokeRef.child(pokeName).setValue(pokeData);
+                itemRef.child("Hp Up").setValue(hpUpData);
+                itemRef.child("Potion").setValue(potionData);
+                itemRef.child("Protein").setValue(proteinData);
+                itemRef.child("Rare Candy").setValue(rareCandyData);
+                itemRef.child("Revive").setValue(reviveData);
 
                 userRef.child(user).setValue(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

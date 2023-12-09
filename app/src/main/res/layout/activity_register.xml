@@ -12,7 +12,7 @@
     <ImageView
         android:id="@+id/pokeLogo"
         android:layout_width="wrap_content"
-        android:layout_height="125dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"/>
 
     <TextView
@@ -66,11 +66,18 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/regisBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register"
         android:layout_below="@id/radioGender"/>
+
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login Here"
+        android:layout_below="@id/regisBtn"/>
 
 
 </RelativeLayout>

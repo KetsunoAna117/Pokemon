@@ -263,7 +263,7 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
 
     public void onPokemonFaintedEvent(){
         adventure_activity_continue_button.setOnClickListener(event_2 -> {
-            // if oppossing pokemon defeated
+            // if opposing pokemon defeated
             if(AdventureController.getEnemyPokemon().getHp() <= 0){
                 playVictoryMusic();
                 onActionUpdateBattleMessage(AdventureController.getEnemyPokemon().getName() + " is fainted");
@@ -280,7 +280,6 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
                                 "You got 1 ERROR");
                     }
 
-
                     adventure_activity_continue_button.setOnClickListener(event_4 -> {
                         TrainerController.addTrainerExp();
                         AdventureController.setEnemyPokemon(null);
@@ -289,6 +288,7 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
                     });
                 });
             }
+//            if ally pokemon defeated
             else if(TrainerController.getActiveTrainerData().getActivePokemon().getHp() <= 0){
                 onActionUpdateBattleMessage(TrainerController.getActiveTrainerData().getActivePokemon().getName() + " is fainted");
                 adventure_activity_continue_button.setOnClickListener((event_3) -> {

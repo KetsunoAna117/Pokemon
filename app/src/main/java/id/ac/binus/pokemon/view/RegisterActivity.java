@@ -28,7 +28,7 @@ import id.ac.binus.pokemon.controller.TrainerController;
 public class RegisterActivity extends AppCompatActivity {
     ImageView imgData;
     EditText userData, passData;
-    Button btn;
+    Button regisBtn, loginBtn;
     RadioGroup radioGender;
     DatabaseReference userRef;
     FirebaseDatabase db;
@@ -42,16 +42,25 @@ public class RegisterActivity extends AppCompatActivity {
         imgData = findViewById(R.id.pokeLogo);
         userData = findViewById(R.id.userET);
         passData = findViewById(R.id.passET);
-        btn = findViewById(R.id.btn);
+        regisBtn = findViewById(R.id.regisBtn);
+        loginBtn = findViewById(R.id.loginBtn);
         radioGender = findViewById(R.id.radioGender);
 
         imgData.setImageResource(R.drawable.pokemon_logo);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        regisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 getPokemonDataFromApi();
+            }
+        });
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
 

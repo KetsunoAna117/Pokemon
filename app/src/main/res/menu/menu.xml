@@ -18,6 +18,6 @@
     <item
         android:title="Logout"
         android:id="@+id/mnLogout"
-        android:icon="@drawable/backpack"
+        android:icon="@drawable/logout"
         />
 </menu>

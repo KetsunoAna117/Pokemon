@@ -40,11 +40,7 @@ public class MainActivity extends AppCompatActivity {
             AdventureController.setActiveRoute(getRoutes.get(0));
             AdventureController.setEnemyPokemon(null);
 
-            // backpack have to be initialized here (declare)
-            // or it can cause error when the user immediately battle
-            // before opening backpack
-            // The init used to be when user opening backpack
-            BackpackController.initItem();
+            BackpackController.loadTrainerBackpackData();
 
             getPokemonDataFromApi();
         }

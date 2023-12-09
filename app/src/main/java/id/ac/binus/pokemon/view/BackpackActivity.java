@@ -94,7 +94,7 @@ public class BackpackActivity extends AppCompatActivity implements NavigationBar
     private void putBackpackData(){
         Log.d("DEBUG", "put backpack data called");
         backpack_items_listview = (ListView) findViewById(R.id.backpack_items_listview);
-        Vector<Item> backpacks = BackpackController.getTrainerBackpackData(TrainerController.getActiveTrainerData().getTrainedId());
+        Vector<Item> backpacks = BackpackController.getTrainerBackpackData();
 
         ItemAdapter adapter = new ItemAdapter(this, R.layout.activity_item_adapter, backpacks, this);
         backpack_items_listview.setAdapter(adapter);

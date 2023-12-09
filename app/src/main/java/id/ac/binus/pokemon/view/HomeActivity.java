@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
                 return true;
             case R.id.mnLogout:
                 TrainerController.setActiveTrainerData(null);
-                Intent mainIntent = new Intent(HomeActivity.this, MainActivity.class);
+                Intent mainIntent = new Intent(HomeActivity.this, LoginActivity.class);
                 startActivity(mainIntent);
         }
 

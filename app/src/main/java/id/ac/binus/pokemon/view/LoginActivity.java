@@ -90,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                             TrainerController.setActiveTrainerData(new Trainer(userName, "Female", R.drawable.female_trainer, 1));
                         }
 
+//                        TODOOOOO
                         TrainerController.getActiveTrainerData().setExp(0);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
