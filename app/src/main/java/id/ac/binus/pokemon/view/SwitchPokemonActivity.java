@@ -104,7 +104,7 @@ public class SwitchPokemonActivity extends AppCompatActivity implements OnPokemo
         switch_pokemon_cancel_button = (Button) findViewById(R.id.switch_pokemon_cancel_button);
         switch_pokemon_cancel_button.setOnClickListener(event -> {
             AdventureController.setEnemyPokemon(null);
-            Intent intent = new Intent(SwitchPokemonActivity.this, HomeActivity.class);
+            Intent intent = new Intent(SwitchPokemonActivity.this, MainActivity.class);
             startActivity(intent);
         });
     }
@@ -118,42 +118,15 @@ public class SwitchPokemonActivity extends AppCompatActivity implements OnPokemo
     @Override
     public void onPokemonReleaseButtonClick(Pokemon selectedPokemon) {
         Pokemon caughtPokemon = AdventureController.getEnemyPokemon();
-        if(selectedPokemon == TrainerController.getActiveTrainerData().getActivePokemon()){
+        if(TrainerController.getActiveTrainerData().getActivePokemon().getPokemonId().equals(selectedPokemon.getPokemonId())){
             TrainerController.getActiveTrainerData().setActivePokemon(caughtPokemon);
         }
-        TrainerController.getActiveTrainerData().getParty().add(caughtPokemon);
-        TrainerController.removeTrainerPokemon(selectedPokemon);
-        AdventureController.setEnemyPokemon(null);
+//        TrainerController.getActiveTrainerData().getParty().add(caughtPokemon);
+//        TrainerController.removeTrainerPokemon(selectedPokemon);
 
-        FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
-
-        String user = TrainerController.getActiveTrainerData().getName();
-
-        DatabaseReference pokeRef = db.getReference(user + "'s pokemon");
-
-        pokeRef.child(selectedPokemon.getPokemonId()).removeValue();
-
-        Log.d("DEBUG", selectedPokemon.getPokemonId());
-
-        DatabaseReference newChildRef = pokeRef.push();
-        String key = newChildRef.getKey();
-
-        caughtPokemon.setPokemonId(key);
-        HashMap<String, Object> pokeData = new HashMap<>();
-        pokeData.put("pokemonName", caughtPokemon.getName());
-        pokeData.put("pokemonLevel", caughtPokemon.getLevel());
-        pokeData.put("pokemonType", caughtPokemon.getTypes().get(0).getTypeName().getName());
-        pokeData.put("pokemonAttack", caughtPokemon.getAttackStats());
-        pokeData.put("pokemonMaxHP", caughtPokemon.getMaxHp());
-        pokeData.put("pokemonHP", caughtPokemon.getHp());
-
-        pokeRef.child(key).setValue(pokeData).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(SwitchPokemonActivity.this, "Switch Pokemon successful", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SwitchPokemonActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
+        AdventureController.catchAndReleaseEnemyPokemon(caughtPokemon, selectedPokemon);
+        Toast.makeText(SwitchPokemonActivity.this, "Switch Pokemon successful", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(SwitchPokemonActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -20,6 +20,7 @@ import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.model.Pokemon;
 import id.ac.binus.pokemon.model.Route;
 import id.ac.binus.pokemon.view.HomeActivity;
+import id.ac.binus.pokemon.view.MainActivity;
 import id.ac.binus.pokemon.view.SwitchPokemonActivity;
 
 public class AdventureController{
@@ -50,6 +51,16 @@ public class AdventureController{
         pokemonList.add("arceus");
 
         routes.add(new Route("Route 2", 20, 50, pokemonList));
+
+        pokemonList = new Vector<>();
+        pokemonList.add("pikachu");
+        pokemonList.add("snorlax");
+        pokemonList.add("lapras");
+        pokemonList.add("charizard");
+        pokemonList.add("venusaur");
+        pokemonList.add("blastoise");
+
+        routes.add(new Route("Mt. Silver", 82, 100, pokemonList));
 
         return routes;
     }
@@ -97,7 +108,40 @@ public class AdventureController{
         pokeRef.child(key).setValue(pokeData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                TrainerController.getActiveTrainerData().getParty().add(pokemon);
+//                TrainerController.getActiveTrainerData().getParty().add(pokemon);
+                AdventureController.setEnemyPokemon(null);
+            }
+        });
+
+        return true;
+    }
+
+    public static Boolean catchAndReleaseEnemyPokemon(Pokemon caughtPokemon, Pokemon selectedPokemon){
+        FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
+
+        String user = TrainerController.getActiveTrainerData().getName();
+
+        DatabaseReference pokeRef = db.getReference(user + "'s pokemon");
+
+        pokeRef.child(selectedPokemon.getPokemonId()).removeValue();
+
+        Log.d("DEBUG", selectedPokemon.getPokemonId());
+
+        DatabaseReference newChildRef = pokeRef.push();
+        String key = newChildRef.getKey();
+
+        caughtPokemon.setPokemonId(key);
+        HashMap<String, Object> pokeData = new HashMap<>();
+        pokeData.put("pokemonName", caughtPokemon.getName());
+        pokeData.put("pokemonLevel", caughtPokemon.getLevel());
+        pokeData.put("pokemonType", caughtPokemon.getTypes().get(0).getTypeName().getName());
+        pokeData.put("pokemonAttack", caughtPokemon.getAttackStats());
+        pokeData.put("pokemonMaxHP", caughtPokemon.getMaxHp());
+        pokeData.put("pokemonHP", caughtPokemon.getHp());
+
+        pokeRef.child(key).setValue(pokeData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
                 AdventureController.setEnemyPokemon(null);
             }
         });

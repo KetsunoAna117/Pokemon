@@ -101,4 +101,11 @@ public class Trainer {
         return backpack;
     }
 
+    public void setParty(LinkedList<Pokemon> party) {
+        this.party = party;
+    }
+
+    public void setBackpack(Vector<Item> backpack) {
+        this.backpack = backpack;
+    }
 }

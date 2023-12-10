@@ -56,7 +56,7 @@ public class BackpackActivity extends AppCompatActivity implements NavigationBar
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.mnHome:
-                Intent homeIntent = new Intent(BackpackActivity.this, HomeActivity.class);
+                Intent homeIntent = new Intent(BackpackActivity.this, MainActivity.class);
                 startActivity(homeIntent);
                 item.setChecked(true);
                 return true;

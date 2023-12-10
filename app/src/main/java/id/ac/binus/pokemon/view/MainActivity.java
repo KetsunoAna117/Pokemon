@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
 
+import java.util.LinkedList;
 import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
@@ -17,7 +18,8 @@ import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Route;
 
 public class MainActivity extends AppCompatActivity {
-    private Integer pokemonCounter;
+    private Boolean initFlag = true;
+    private Integer pokemonCounter = 0;
     private ProgressBar loadingProgressBar;
 
     @Override
@@ -36,11 +38,9 @@ public class MainActivity extends AppCompatActivity {
             loadingProgressBar = findViewById(R.id.main_loading_progress_bar);
             loadingProgressBar.setMax(6);
 
-            Vector<Route> getRoutes = AdventureController.getAllRoutes();
-            AdventureController.setActiveRoute(getRoutes.get(0));
-            AdventureController.setEnemyPokemon(null);
+            // Re-initialize all data
+            initializeData();
 
-            BackpackController.loadTrainerBackpackData();
 
             getPokemonDataFromApi();
         }
@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("DEBUG", "get pokemon data event");
         TrainerController controller = new TrainerController();
         controller.getTrainerPokemon(this);
-        pokemonCounter = 0;
 
     }
 
@@ -64,11 +63,26 @@ public class MainActivity extends AppCompatActivity {
         renderProgressBar(pokemonCounter);
 
         if(pokemonCounter > 0){
-            TrainerController.getActiveTrainerData().setActivePokemon(TrainerController.getActiveTrainerData().getParty().get(0));
+            if(TrainerController.getActiveTrainerData().getActivePokemon() == null){
+                TrainerController.getActiveTrainerData().setActivePokemon(TrainerController.getActiveTrainerData().getParty().get(0));
+            }
             // After get done, load home
             Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(homeIntent);
         }
+    }
+
+    public void initializeData(){
+        if(initFlag){
+            Vector<Route> getRoutes = AdventureController.getAllRoutes();
+            AdventureController.setActiveRoute(getRoutes.get(0));
+            AdventureController.setEnemyPokemon(null);
+            initFlag = false;
+        }
+        TrainerController.getActiveTrainerData().setParty(new LinkedList<>());
+        TrainerController.getActiveTrainerData().setBackpack(new Vector<>());
+        BackpackController.loadTrainerBackpackData();
+
     }
 
     private void playMusic(){

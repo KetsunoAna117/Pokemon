@@ -40,7 +40,7 @@ public class AreaSelectionActivity extends AppCompatActivity implements OnRouteS
     private void putAllRoutesData(){
         area_selection_list_view = (ListView) findViewById(R.id.area_selection_list_view);
         AdventureController controller = new AdventureController();
-        Vector<Route> routes = controller.getAllRoutes();
+        Vector<Route> routes = AdventureController.getAllRoutes();
 
         AreaAdapter areaAdapter = new AreaAdapter(this, R.layout.activity_area_adapter, routes, this);
         area_selection_list_view.setAdapter(areaAdapter);
@@ -56,7 +56,7 @@ public class AreaSelectionActivity extends AppCompatActivity implements OnRouteS
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.mnHome:
-                Intent homeIntent = new Intent(AreaSelectionActivity.this, HomeActivity.class);
+                Intent homeIntent = new Intent(AreaSelectionActivity.this, MainActivity.class);
                 startActivity(homeIntent);
                 item.setChecked(true);
                 return true;

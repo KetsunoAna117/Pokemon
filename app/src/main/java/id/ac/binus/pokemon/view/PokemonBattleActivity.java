@@ -66,7 +66,7 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.mnHome:
-                Intent homeIntent = new Intent(PokemonBattleActivity.this, HomeActivity.class);
+                Intent homeIntent = new Intent(PokemonBattleActivity.this, MainActivity.class);
                 startActivity(homeIntent);
                 item.setChecked(true);
                 return true;
@@ -241,7 +241,7 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
             }
             else {
                 AdventureController.setEnemyPokemon(null);
-                Intent intent = new Intent(PokemonBattleActivity.this, HomeActivity.class);
+                Intent intent = new Intent(PokemonBattleActivity.this, MainActivity.class);
                 startActivity(intent);
             }
 
@@ -255,7 +255,7 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
         onActionUpdateBattleMessage("Got Away Safely");
         adventure_activity_continue_button.setOnClickListener(event -> {
             AdventureController.setEnemyPokemon(null);
-            Intent intent = new Intent(PokemonBattleActivity.this, HomeActivity.class);
+            Intent intent = new Intent(PokemonBattleActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
@@ -283,7 +283,7 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
                     adventure_activity_continue_button.setOnClickListener(event_4 -> {
                         TrainerController.addTrainerExp();
                         AdventureController.setEnemyPokemon(null);
-                        Intent adventureIntent = new Intent(PokemonBattleActivity.this, HomeActivity.class);
+                        Intent adventureIntent = new Intent(PokemonBattleActivity.this, MainActivity.class);
                         startActivity(adventureIntent);
                     });
                 });
@@ -295,7 +295,7 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
                     onActionUpdateBattleMessage("You lose the battle!");
                     adventure_activity_continue_button.setOnClickListener(event_4 -> {
                         AdventureController.setEnemyPokemon(null);
-                        Intent homeIntent = new Intent(PokemonBattleActivity.this, HomeActivity.class);
+                        Intent homeIntent = new Intent(PokemonBattleActivity.this, MainActivity.class);
                         startActivity(homeIntent);
                     });
 
