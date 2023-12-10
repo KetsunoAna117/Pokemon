@@ -1,6 +1,7 @@
 package id.ac.binus.pokemon.model.items;
 
 import id.ac.binus.pokemon.R;
+import id.ac.binus.pokemon.controller.BackpackController;
 import id.ac.binus.pokemon.model.Pokemon;
 
 public class HpUp extends Item{
@@ -13,6 +14,7 @@ public class HpUp extends Item{
     public Boolean useItem(Pokemon pokemon) {
         // HPUp will increase pokemon max HP stats by 1
         pokemon.setMaxHp(pokemon.getMaxHp() + 1);
+        BackpackController.pokemonUpdate("Hp Up");
         return true;
     }
 

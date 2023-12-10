@@ -27,7 +27,7 @@ public class BackpackController {
     private static HashMap<Integer, Item> backpack;
     static FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
     static String user = TrainerController.getActiveTrainerData().getName() + "'s backpack";
-    static DatabaseReference itemRef = db.getReference().child(user);
+    static DatabaseReference itemRef = db.getReference().child(user), pokeRef;
 
     public static Vector<Item> getTrainerBackpackData(){
 
@@ -74,17 +74,6 @@ public class BackpackController {
         });
     }
 
-//    public static Integer getItemIndexFromBackpack(Item selectedItem){
-//        Integer index = -1;
-//        for(int i=0; i<backpack.size(); i++){
-//            if(backpack.get(i).equals(selectedItem)){
-//                return i;
-//            }
-//        }
-//
-//        return index;
-//    }
-
     public static Boolean useItem(Item selectedItem, Pokemon selectedPokemon){
         if(selectedItem.getQuantity() > 0){
             Boolean statusIsTrue = selectedItem.useItem(selectedPokemon);
@@ -119,5 +108,39 @@ public class BackpackController {
             return selectedItem;
         }
         return null;
+    }
+
+    public static void pokemonUpdate(String item){
+        String userPoke = TrainerController.getActiveTrainerData().getName() + "'s pokemon";
+        Pokemon pokemon = TrainerController.getActiveTrainerData().getActivePokemon();
+        pokeRef = db.getReference().child(userPoke).child(pokemon.getPokemonId());
+        pokeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(item.equals("Hp Up")){
+                    pokeRef.child("pokemonMaxHP").setValue(pokemon.getMaxHp());
+                }
+                else if(item.equals("Potion")){
+                    pokeRef.child("pokemonHP").setValue(pokemon.getHp());
+                }
+                else if(item.equals("Protein")){
+                    pokeRef.child("pokemonAttack").setValue(pokemon.getAttackStats());
+                }
+                else if(item.equals("Rare Candy")){
+                    pokeRef.child("pokemonLevel").setValue(pokemon.getLevel());
+                    pokeRef.child("pokemonAttack").setValue(pokemon.getAttackStats());
+                    pokeRef.child("pokemonMaxHP").setValue(pokemon.getMaxHp());
+                }
+                else if(item.equals("Revive")){
+                    pokeRef.child("pokemonHP").setValue(pokemon.getHp());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

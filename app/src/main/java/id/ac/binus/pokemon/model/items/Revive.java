@@ -1,6 +1,7 @@
 package id.ac.binus.pokemon.model.items;
 
 import id.ac.binus.pokemon.R;
+import id.ac.binus.pokemon.controller.BackpackController;
 import id.ac.binus.pokemon.model.Pokemon;
 
 public class Revive extends Item {
@@ -15,6 +16,7 @@ public class Revive extends Item {
         if(pokemon.getHp() <= 0){
             // Revive will revive fainted pokemon
             pokemon.setHp(pokemon.getMaxHp());
+            BackpackController.pokemonUpdate("Revive");
             return true;
         }
         return false;

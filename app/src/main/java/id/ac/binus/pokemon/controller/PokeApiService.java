@@ -46,7 +46,7 @@ public class PokeApiService {
             }
         });
     }
-    public static void getCapturedPokemonDataFromAPIByName(String id, String name, OnPokemonLoadedListener listener, Integer level, Integer maxHp, Integer attackStats){
+    public static void getCapturedPokemonDataFromAPIByName(String id, String name, OnPokemonLoadedListener listener, Integer level, Integer maxHp, Integer Hp, Integer attackStats){
         Log.d("DEBUG", "try call pokemon from api event");
         Call<Pokemon> requestPokemon = PokeApiService.getPokeApiInterface().getPokemonByNationalDexId(name);
         requestPokemon.enqueue(new Callback<Pokemon>() {
@@ -59,6 +59,7 @@ public class PokeApiService {
                             response.body().getTypes(),
                             level,
                             response.body().getSprites(),
+                            Hp,
                             maxHp,
                             attackStats);
                     Log.d("DEBUG", "pokemon sprites from api event: " + response.body().getSprites().getFrontSprite());
@@ -86,6 +87,7 @@ public class PokeApiService {
                             response.body().getTypes(),
                             level,
                             response.body().getSprites(),
+                            maxHp,
                             maxHp,
                             attackStats);
                     Log.d("DEBUG", "pokemon sprites from api event: " + response.body().getSprites().getFrontSprite());

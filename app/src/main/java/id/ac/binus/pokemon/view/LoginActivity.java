@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import id.ac.binus.pokemon.R;
+import id.ac.binus.pokemon.controller.AuthenticationController;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Trainer;
 
@@ -67,51 +68,26 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Please enter both email and password", Toast.LENGTH_SHORT).show();
             return;
         }
-        db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
-        userRef = db.getReference().child("users").child(user);
-
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        AuthenticationController.checkUserExist(user, new AuthenticationController.UserExistenceCallback() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String userName = snapshot.child("user").getValue(String.class);
-                    String passWord = snapshot.child("pass").getValue(String.class);
-
-                    if(pass.equals(passWord)){
-                        String gender = snapshot.child("gender").getValue(String.class);
-
-                        assert gender != null;
-
-                        if(gender.equals("male")){
-                            TrainerController.setActiveTrainerData(new Trainer(userName, "Male", R.drawable.male_trainer, 1));
+            public void onResult(Boolean userExists) {
+                if (userExists) {
+                    AuthenticationController.userLogin(user, pass, new AuthenticationController.UserExistenceCallback() {
+                        @Override
+                        public void onResult(Boolean passCorrect) {
+                            if (passCorrect) {
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Invalid password.", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else if(gender.equals("female")){
-                            TrainerController.setActiveTrainerData(new Trainer(userName, "Female", R.drawable.female_trainer, 1));
-                        }
-
-//                        TODOOOOO
-                        TrainerController.getActiveTrainerData().setExp(0);
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                    else{
-                        Toast.makeText(LoginActivity.this, "Invalid password.", Toast.LENGTH_SHORT).show();
-                    }
-
+                    });
                 } else {
                     Toast.makeText(LoginActivity.this, "User not found in the database.", Toast.LENGTH_SHORT).show();
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle error
-                Toast.makeText(LoginActivity.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
         });
-
-
     }
 }

@@ -1,6 +1,7 @@
 package id.ac.binus.pokemon.model.items;
 
 import id.ac.binus.pokemon.R;
+import id.ac.binus.pokemon.controller.BackpackController;
 import id.ac.binus.pokemon.model.Pokemon;
 
 public class RareCandy extends Item{
@@ -15,6 +16,7 @@ public class RareCandy extends Item{
         pokemon.setLevel(pokemon.getLevel() + 1);
         pokemon.setAttackStats(pokemon.getAttackStats() + 2);
         pokemon.setMaxHp(pokemon.getMaxHp() + 2);
+        BackpackController.pokemonUpdate("Rare Candy");
         return true;
     }
 

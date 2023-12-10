@@ -80,7 +80,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
         expBar = (ProgressBar) findViewById(R.id.trainer_exp_exp_bar);
 
         trainerName.setText("Trainer " + TrainerController.getActiveTrainerData().getName());
-        trainerExp.setText("Exp. " +TrainerController.getActiveTrainerData().getExp().toString() + " / " + TrainerController.getActiveTrainerData().getBaseExp().toString());
+        trainerExp.setText("Exp. " + TrainerController.getActiveTrainerData().getExp().toString() + " / " + TrainerController.getActiveTrainerData().getBaseExp().toString());
         trainerLevel.setText("Lv." + TrainerController.getActiveTrainerData().getLevel().toString());
 
         trainerProfilePicture.setImageResource(TrainerController.getActiveTrainerData().getProfilePicture());

@@ -5,6 +5,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,8 +30,8 @@ public class TrainerController implements OnPokemonLoadedListener {
     private static Trainer activeTrainerData;
     private MainActivity mainListener;
     private RegisterActivity starterListener;
-    DatabaseReference userRef;
-    FirebaseDatabase db;
+    static DatabaseReference userRef, pokeRef;
+    static FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");;
 
     public static Trainer getActiveTrainerData() {
         return activeTrainerData;
@@ -42,13 +44,11 @@ public class TrainerController implements OnPokemonLoadedListener {
     public void getTrainerPokemon(MainActivity mainListener){
         this.mainListener = mainListener;
 
-        db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
-
         String user = activeTrainerData.getName() + "'s pokemon";
 
-        userRef = db.getReference().child(user);
+        pokeRef = db.getReference().child(user);
 
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        pokeRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -57,8 +57,9 @@ public class TrainerController implements OnPokemonLoadedListener {
                         String pokemonName = childSnapshot.child("pokemonName").getValue(String.class);
                         Integer pokemonLevel = childSnapshot.child("pokemonLevel").getValue(Integer.class);
                         Integer pokemonAttack = childSnapshot.child("pokemonAttack").getValue(Integer.class);
+                        Integer pokemonHp = childSnapshot.child("pokemonHP").getValue(Integer.class);
                         Integer pokemonMaxHP = childSnapshot.child("pokemonMaxHP").getValue(Integer.class);
-                        PokeApiService.getCapturedPokemonDataFromAPIByName(pokemonId, pokemonName, TrainerController.this, pokemonLevel, pokemonMaxHP, pokemonAttack);
+                        PokeApiService.getCapturedPokemonDataFromAPIByName(pokemonId, pokemonName, TrainerController.this, pokemonLevel, pokemonMaxHP, pokemonHp, pokemonAttack);
                     }
                 }
             }
@@ -117,18 +118,75 @@ public class TrainerController implements OnPokemonLoadedListener {
     public static void addTrainerExp(){
         Integer currentExp = activeTrainerData.getExp();
         Integer maxExp = activeTrainerData.getBaseExp();
+        Integer newExp, newBaseExp = 0, newLevel = 0;
+        String user = activeTrainerData.getName();
 
         if(currentExp + 5 >= maxExp){
             // Trainer Level Up!
-            activeTrainerData.setLevel(activeTrainerData.getLevel() + 1);
-            Integer bonusExp = currentExp + 5 - activeTrainerData.getBaseExp();
+            newLevel = activeTrainerData.getLevel() + 1;
+            activeTrainerData.setLevel(newLevel);
+//            Integer bonusExp = currentExp + 5 - activeTrainerData.getBaseExp();
+            newExp = currentExp + 5 - activeTrainerData.getBaseExp();
 
-            activeTrainerData.setBaseExp(maxExp + 5);
-            activeTrainerData.setExp(bonusExp);
+            newBaseExp = maxExp + 5;
+            activeTrainerData.setBaseExp(newBaseExp);
+//            activeTrainerData.setExp(bonusExp);
+            activeTrainerData.setExp(newExp);
         }
         else{
-            activeTrainerData.setExp(currentExp + 5);
+            newExp = currentExp + 5;
+            activeTrainerData.setExp(newExp);
         }
+
+        Integer finalNewBaseExp = newBaseExp;
+        Integer finalNewLevel = newLevel;
+
+        userRef = db.getReference().child("users").child(user);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    userRef.child("exp").setValue(newExp).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("DEBUG", "Trainer exp updated successfully");
+                            } else {
+                                Log.e("ERROR", "Failed to update trainer exp", task.getException());
+                            }
+                        }
+                    });
+                    if(finalNewBaseExp != 0 && finalNewLevel != 0){
+                        userRef.child("level").setValue(finalNewLevel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d("DEBUG", "Trainer level updated successfully");
+                                } else {
+                                    Log.e("ERROR", "Failed to update trainer level", task.getException());
+                                }
+                            }
+                        });
+                        userRef.child("baseExp").setValue(finalNewBaseExp).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d("DEBUG", "Trainer base exp updated successfully");
+                                } else {
+                                    Log.e("ERROR", "Failed to update trainer base exp", task.getException());
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
 
     }
 

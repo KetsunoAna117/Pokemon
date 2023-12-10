@@ -1,6 +1,7 @@
 package id.ac.binus.pokemon.model.items;
 
 import id.ac.binus.pokemon.R;
+import id.ac.binus.pokemon.controller.BackpackController;
 import id.ac.binus.pokemon.model.Pokemon;
 
 public class Potion extends Item{
@@ -19,6 +20,7 @@ public class Potion extends Item{
             else {
                 pokemon.setHp(pokemon.getHp() + 10);
             }
+            BackpackController.pokemonUpdate("Potion");
             return true;
         }
 

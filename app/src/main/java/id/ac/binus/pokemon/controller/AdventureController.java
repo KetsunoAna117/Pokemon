@@ -10,8 +10,11 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -26,6 +29,8 @@ import id.ac.binus.pokemon.view.SwitchPokemonActivity;
 public class AdventureController{
     private static Route activeRoute = null;
     private static Pokemon enemyPokemon;
+    private static FirebaseDatabase db;
+    private static DatabaseReference pokeRef, userRef;
 
     public static Route getActiveRoute() {
         return activeRoute;
@@ -171,6 +176,11 @@ public class AdventureController{
         return 1.0;
     }
 
+    public static void updatePokemonHP(String user, Pokemon pokemon){
+        db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        pokeRef = db.getReference().child(user + "'s pokemon");
+        pokeRef.child(pokemon.getPokemonId()).child("pokemonHP").setValue(pokemon.getHp());
+    }
 
 
 }

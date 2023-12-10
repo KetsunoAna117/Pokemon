@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Locale;
 
 import id.ac.binus.pokemon.R;
+import id.ac.binus.pokemon.controller.AuthenticationController;
 import id.ac.binus.pokemon.controller.TrainerController;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -91,13 +92,10 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
-
-            userRef = db.getReference().child("users").child(user);
-            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            AuthenticationController.checkUserExist(user, new AuthenticationController.UserExistenceCallback() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
+                public void onResult(Boolean userExists) {
+                    if (userExists) {
                         Toast.makeText(RegisterActivity.this, "User already exists in the database.", Toast.LENGTH_SHORT).show();
                     } else {
                         Intent intent = new Intent(RegisterActivity.this, StarterActivity.class);
@@ -107,14 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    // Handle error
-                    Toast.makeText(RegisterActivity.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
             });
-
         }
     }
 }

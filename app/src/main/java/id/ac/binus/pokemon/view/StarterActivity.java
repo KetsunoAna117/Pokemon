@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
+import id.ac.binus.pokemon.controller.AuthenticationController;
 import id.ac.binus.pokemon.controller.BackpackController;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
@@ -30,8 +31,6 @@ import id.ac.binus.pokemon.model.items.Item;
 public class StarterActivity extends AppCompatActivity {
 
     private ListView starter_listview;
-    FirebaseDatabase db;
-    DatabaseReference userRef, pokeRef, itemRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,48 +67,14 @@ public class StarterActivity extends AppCompatActivity {
                 Integer pokeMaxHP = chosen.getMaxHp();
                 Integer pokeHP = chosen.getMaxHp();
 
-                db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                userRef = db.getReference("users");
-                pokeRef = db.getReference(user + "'s pokemon");
-                itemRef = db.getReference(user + "'s backpack");
-
-                HashMap<String, Object> userData = new HashMap<>();
-                userData.put("user", user);
-                userData.put("pass", pass);
-                userData.put("gender", gender);
-
-//                Starter
-                DatabaseReference newChildRef = pokeRef.push();
-                String key = newChildRef.getKey();
-
-                HashMap<String, Object> pokeData = new HashMap<>();
-                pokeData.put("pokemonName", pokeName);
-                pokeData.put("pokemonLevel", pokeLvl);
-                pokeData.put("pokemonType", pokeType);
-                pokeData.put("pokemonAttack", pokeAtk);
-                pokeData.put("pokemonMaxHP", pokeMaxHP);
-                pokeData.put("pokemonHP", pokeHP);
-
-//                Item
-                HashMap<String, Object> hpUpData = createItemData(1);
-                HashMap<String, Object> potionData = createItemData(2);
-                HashMap<String, Object> proteinData = createItemData(3);
-                HashMap<String, Object> rareCandyData = createItemData(4);
-                HashMap<String, Object> reviveData = createItemData(5);
-
-                pokeRef.child(key).setValue(pokeData);
-                itemRef.child("Hp Up").setValue(hpUpData);
-                itemRef.child("Potion").setValue(potionData);
-                itemRef.child("Protein").setValue(proteinData);
-                itemRef.child("Rare Candy").setValue(rareCandyData);
-                itemRef.child("Revive").setValue(reviveData);
-
-                userRef.child(user).setValue(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                AuthenticationController.newUser(user, pass, gender, pokeName, pokeLvl, pokeType, pokeAtk, pokeMaxHP, pokeHP, new AuthenticationController.UserExistenceCallback() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(StarterActivity.this, "Trainer Data successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(StarterActivity.this, LoginActivity.class);
-                        startActivity(intent);
+                    public void onResult(Boolean bool) {
+                        if(bool){
+                            Toast.makeText(StarterActivity.this, "Trainer Data successful", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(StarterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 });
 
@@ -118,13 +83,5 @@ public class StarterActivity extends AppCompatActivity {
             }
         });
     }
-
-    private HashMap<String, Object> createItemData(int itemId) {
-        HashMap<String, Object> itemData = new HashMap<>();
-        itemData.put("itemId", itemId);
-        itemData.put("itemQuantity", 0);
-        return itemData;
-    }
-
 
 }

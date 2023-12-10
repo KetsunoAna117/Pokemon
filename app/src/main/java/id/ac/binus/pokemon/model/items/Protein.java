@@ -1,6 +1,7 @@
 package id.ac.binus.pokemon.model.items;
 
 import id.ac.binus.pokemon.R;
+import id.ac.binus.pokemon.controller.BackpackController;
 import id.ac.binus.pokemon.model.Pokemon;
 
 public class Protein extends Item{
@@ -14,6 +15,7 @@ public class Protein extends Item{
     public Boolean useItem(Pokemon pokemon) {
         // Protein will increase pokemon atk stats by 1
         pokemon.setAttackStats(pokemon.getAttackStats() + 1);
+        BackpackController.pokemonUpdate("Protein");
         return true;
     }
 
