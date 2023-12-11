@@ -16,9 +16,9 @@ import id.ac.binus.pokemon.controller.BackpackController;
 import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Route;
+import id.ac.binus.pokemon.model.Trainer;
 
 public class MainActivity extends AppCompatActivity {
-    private Boolean initFlag = true;
     private Integer pokemonCounter = 0;
     private ProgressBar loadingProgressBar;
 
@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
         pokemonCounter++;
         renderProgressBar(pokemonCounter);
 
-        if(pokemonCounter > 0){
+        if(pokemonCounter > TrainerController.getTrainerPartyPokemonSize()){
             if(TrainerController.getActiveTrainerData().getActivePokemon() == null){
-                TrainerController.getActiveTrainerData().setActivePokemon(TrainerController.getActiveTrainerData().getParty().get(0));
+                TrainerController.setActiveTrainerPokemonFromDatabase();
             }
             // After get done, load home
             Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
@@ -73,11 +73,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initializeData(){
-        if(initFlag){
+        if(TrainerController.getMainInitFlag()){
             Vector<Route> getRoutes = AdventureController.getAllRoutes();
             AdventureController.setActiveRoute(getRoutes.get(0));
             AdventureController.setEnemyPokemon(null);
-            initFlag = false;
+            TrainerController.setTrainerPartyPokemonSize();
+            TrainerController.setMainInitFlag(false);
         }
         TrainerController.getActiveTrainerData().setParty(new LinkedList<>());
         TrainerController.getActiveTrainerData().setBackpack(new Vector<>());

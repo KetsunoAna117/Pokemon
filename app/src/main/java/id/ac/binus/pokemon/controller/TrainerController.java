@@ -26,8 +26,10 @@ import id.ac.binus.pokemon.view.StarterActivity;
 import com.google.firebase.database.DataSnapshot;
 
 public class TrainerController implements OnPokemonLoadedListener {
+    private static Boolean mainInitFlag = true;
     private static ArrayList<Pokemon> starterList;
     private static Trainer activeTrainerData;
+    private static Integer activeTrainerPartySize;
     private MainActivity mainListener;
     private RegisterActivity starterListener;
     static DatabaseReference userRef, pokeRef;
@@ -192,5 +194,37 @@ public class TrainerController implements OnPokemonLoadedListener {
 
     public static ArrayList<Pokemon> getStarterList() {
         return starterList;
+    }
+
+    public static Boolean getMainInitFlag(){
+        return mainInitFlag;
+    }
+
+    public static void setMainInitFlag(Boolean flag){
+        mainInitFlag = flag;
+    }
+
+    public static void setTrainerPartyPokemonSize(){
+        // TODO get from database
+        activeTrainerPartySize = 6; // temp
+    }
+
+    public static Integer getTrainerPartyPokemonSize(){
+        return activeTrainerPartySize;
+    }
+
+    public static void setActiveTrainerPokemonFromDatabase(){
+        // TODO after get pokemon id, return pokemon from linked list
+        String activePokemonId = getActiveTrainerData().getParty().get(0).toString(); // temp it should return active pokemon from firebase
+
+        LinkedList<Pokemon> pokemons = getActiveTrainerData().getParty();
+        for(Pokemon p : pokemons){
+            if(p.getPokemonId().equals(activePokemonId)){
+                getActiveTrainerData().setActivePokemon(p);
+                break;
+            }
+        }
+
+
     }
 }

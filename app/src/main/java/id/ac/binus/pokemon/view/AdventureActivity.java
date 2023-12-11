@@ -72,6 +72,12 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
                 startActivity(backpackIntent);
                 item.setChecked(true);
                 return true;
+            case R.id.mnLogout:
+                TrainerController.setActiveTrainerData(null);
+                TrainerController.setMainInitFlag(true);
+                Intent mainIntent = new Intent(AdventureActivity.this, LoginActivity.class);
+                startActivity(mainIntent);
+                return true;
         }
         return false;
     }

@@ -75,6 +75,12 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
                 startActivity(backpackIntent);
                 item.setChecked(true);
                 return true;
+            case R.id.mnLogout:
+                TrainerController.setActiveTrainerData(null);
+                TrainerController.setMainInitFlag(true);
+                Intent mainIntent = new Intent(PokemonBattleActivity.this, LoginActivity.class);
+                startActivity(mainIntent);
+                return true;
         }
         return false;
     }

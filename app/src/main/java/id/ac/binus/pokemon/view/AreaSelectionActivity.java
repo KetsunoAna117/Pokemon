@@ -17,6 +17,7 @@ import java.util.Vector;
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
 import id.ac.binus.pokemon.controller.OnRouteSwitchListener;
+import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Route;
 
 public class AreaSelectionActivity extends AppCompatActivity implements OnRouteSwitchListener, NavigationBarView.OnItemSelectedListener {
@@ -64,6 +65,12 @@ public class AreaSelectionActivity extends AppCompatActivity implements OnRouteS
                 Intent backpackIntent = new Intent(AreaSelectionActivity.this, BackpackActivity.class);
                 startActivity(backpackIntent);
                 item.setChecked(true);
+                return true;
+            case R.id.mnLogout:
+                TrainerController.setActiveTrainerData(null);
+                TrainerController.setMainInitFlag(true);
+                Intent mainIntent = new Intent(AreaSelectionActivity.this, LoginActivity.class);
+                startActivity(mainIntent);
                 return true;
         }
         return false;
