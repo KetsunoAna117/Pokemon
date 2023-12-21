@@ -206,7 +206,7 @@ public class TrainerController implements OnPokemonLoadedListener {
 
     public static void setTrainerPartyPokemonSize(){
         // TODO get from database
-        activeTrainerPartySize = 6; // temp
+        activeTrainerPartySize = 1; // temp
     }
 
     public static Integer getTrainerPartyPokemonSize(){
@@ -215,13 +215,13 @@ public class TrainerController implements OnPokemonLoadedListener {
 
     public static void setActiveTrainerPokemonFromDatabase(){
         // TODO after get pokemon id, return pokemon from linked list
-        String activePokemonId = getActiveTrainerData().getParty().get(0).toString(); // temp it should return active pokemon from firebase
+        String activePokemonId = getActiveTrainerData().getParty().get(0).getPokemonId();
 
         LinkedList<Pokemon> pokemons = getActiveTrainerData().getParty();
         for(Pokemon p : pokemons){
             if(p.getPokemonId().equals(activePokemonId)){
                 getActiveTrainerData().setActivePokemon(p);
-                break;
+                return;
             }
         }
 

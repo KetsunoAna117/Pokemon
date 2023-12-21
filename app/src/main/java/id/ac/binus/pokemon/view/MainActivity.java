@@ -35,8 +35,9 @@ public class MainActivity extends AppCompatActivity {
         else{
             playMusic();
 
+            TrainerController.setTrainerPartyPokemonSize();
             loadingProgressBar = findViewById(R.id.main_loading_progress_bar);
-            loadingProgressBar.setMax(6);
+            loadingProgressBar.setMax(TrainerController.getTrainerPartyPokemonSize());
 
             // Re-initialize all data
             initializeData();
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         pokemonCounter++;
         renderProgressBar(pokemonCounter);
 
-        if(pokemonCounter > TrainerController.getTrainerPartyPokemonSize()){
+        if(pokemonCounter >= TrainerController.getTrainerPartyPokemonSize()){
             if(TrainerController.getActiveTrainerData().getActivePokemon() == null){
                 TrainerController.setActiveTrainerPokemonFromDatabase();
             }
