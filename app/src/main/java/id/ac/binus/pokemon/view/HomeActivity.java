@@ -130,7 +130,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
 
     @Override
     public void onPokemonSwitchButtonClick(Pokemon selectedPokemon) {
-        TrainerController.getActiveTrainerData().setActivePokemon(selectedPokemon);
+        TrainerController.changeActivePokemon(selectedPokemon);
         putAllHomeData();
     }
 

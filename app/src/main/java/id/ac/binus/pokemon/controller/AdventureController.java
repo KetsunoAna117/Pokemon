@@ -96,6 +96,7 @@ public class AdventureController{
         String user = TrainerController.getActiveTrainerData().getName();
 
         DatabaseReference pokeRef = db.getReference(user + "'s pokemon");
+        DatabaseReference userRef = db.getReference("users");
 
         DatabaseReference newChildRef = pokeRef.push();
         String key = newChildRef.getKey();
@@ -117,6 +118,21 @@ public class AdventureController{
                 AdventureController.setEnemyPokemon(null);
             }
         });
+
+        userRef.child(user).child("partySize").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Integer partySize = snapshot.getValue(Integer.class);
+
+                userRef.child(user).child("partySize").setValue(partySize + 1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         return true;
     }

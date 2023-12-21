@@ -35,13 +35,12 @@ public class MainActivity extends AppCompatActivity {
         else{
             playMusic();
 
-            TrainerController.setTrainerPartyPokemonSize();
-            loadingProgressBar = findViewById(R.id.main_loading_progress_bar);
-            loadingProgressBar.setMax(TrainerController.getTrainerPartyPokemonSize());
-
             // Re-initialize all data
             initializeData();
 
+//            TrainerController.setTrainerPartyPokemonSize();
+            loadingProgressBar = findViewById(R.id.main_loading_progress_bar);
+            loadingProgressBar.setMax(TrainerController.getTrainerPartyPokemonSize());
 
             getPokemonDataFromApi();
         }
@@ -75,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void initializeData(){
         if(TrainerController.getMainInitFlag()){
+            Log.d("DEBUG", "INTIALIZE DATA");
             Vector<Route> getRoutes = AdventureController.getAllRoutes();
             AdventureController.setActiveRoute(getRoutes.get(0));
             AdventureController.setEnemyPokemon(null);

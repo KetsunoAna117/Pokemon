@@ -33,7 +33,7 @@ public class TrainerController implements OnPokemonLoadedListener {
     private MainActivity mainListener;
     private RegisterActivity starterListener;
     static DatabaseReference userRef, pokeRef;
-    static FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");;
+    static FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
     public static Trainer getActiveTrainerData() {
         return activeTrainerData;
@@ -88,16 +88,37 @@ public class TrainerController implements OnPokemonLoadedListener {
         }
     }
 
-    public static void removeTrainerPokemon(Pokemon toDeletePokemon){
-        activeTrainerData.getParty().remove(toDeletePokemon);
-
-        FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    public static void changeActivePokemon(Pokemon toActivePokemon){
 
         String user = TrainerController.getActiveTrainerData().getName();
 
-        DatabaseReference pokeRef = db.getReference(user + "'s pokemon");
+        userRef = db.getReference("users");
+
+        userRef.child(user).child("activePokemonId").setValue(toActivePokemon.getPokemonId());
+    }
+
+    public static void removeTrainerPokemon(Pokemon toDeletePokemon){
+        activeTrainerData.getParty().remove(toDeletePokemon);
+
+        String user = TrainerController.getActiveTrainerData().getName();
+
+        pokeRef = db.getReference(user + "'s pokemon");
+        userRef = db.getReference("users");
 
         pokeRef.child(toDeletePokemon.getPokemonId()).removeValue();
+
+        userRef.child(user).child("partySize").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Integer partySize = snapshot.getValue(Integer.class);
+                userRef.child(user).child("partySize").setValue(partySize - 1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -204,9 +225,31 @@ public class TrainerController implements OnPokemonLoadedListener {
         mainInitFlag = flag;
     }
 
-    public static void setTrainerPartyPokemonSize(){
-        // TODO get from database
-        activeTrainerPartySize = 1; // temp
+    public static void setTrainerPartyPokemonSize() {
+        String user = activeTrainerData.getName();
+
+        userRef = db.getReference("users");
+        Log.d("DEBUG", "User is " + user);
+
+//        Buat cek databasenya di Logcat
+//        Log.d("DEBUG", "Database Path: " + userRef.child(user).child("partySize").toString());
+
+        userRef.child(user).child("partySize").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    activeTrainerPartySize = snapshot.getValue(Integer.class);
+                    Log.d("DEBUG", "Party exists: " + activeTrainerPartySize);
+                } else {
+                    Log.d("DEBUG", "Party doesn't exist");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("ERROR", "onCancelled: " + error.getMessage());
+            }
+        });
     }
 
     public static Integer getTrainerPartyPokemonSize(){
