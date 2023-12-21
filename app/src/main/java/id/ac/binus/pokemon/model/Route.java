@@ -3,10 +3,11 @@ package id.ac.binus.pokemon.model;
 import java.util.Vector;
 
 public class Route {
+    // Table 1
     private String routeName;
     private Integer minLevel;
     private Integer maxLevel;
-    private Vector<String> areaPokemonList;
+    private Vector<String> areaPokemonList; // table 2
 
     public Route(String routeName, Integer minLevel, Integer maxLevel, Vector<String> areaPokemonList) {
         this.routeName = routeName;
