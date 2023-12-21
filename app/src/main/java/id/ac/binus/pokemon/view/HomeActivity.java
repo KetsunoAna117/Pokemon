@@ -65,6 +65,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
             case R.id.mnLogout:
                 TrainerController.setActiveTrainerData(null);
                 TrainerController.setMainInitFlag(true);
+                MediaPlayerSingleton.getInstance().stopMediaPlayer();
                 Intent mainIntent = new Intent(HomeActivity.this, LoginActivity.class);
                 startActivity(mainIntent);
                 return true;

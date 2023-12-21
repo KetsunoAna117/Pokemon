@@ -75,6 +75,7 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
             case R.id.mnLogout:
                 TrainerController.setActiveTrainerData(null);
                 TrainerController.setMainInitFlag(true);
+                MediaPlayerSingleton.getInstance().stopMediaPlayer();
                 Intent mainIntent = new Intent(AdventureActivity.this, LoginActivity.class);
                 startActivity(mainIntent);
                 return true;

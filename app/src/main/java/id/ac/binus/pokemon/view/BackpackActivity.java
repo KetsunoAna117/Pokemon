@@ -26,6 +26,7 @@ import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.BackpackController;
+import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
 import id.ac.binus.pokemon.controller.OnPokemonItemClickedListener;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
@@ -66,6 +67,7 @@ public class BackpackActivity extends AppCompatActivity implements NavigationBar
                 item.setChecked(true);
                 return true;
             case R.id.mnLogout:
+                MediaPlayerSingleton.getInstance().stopMediaPlayer();
                 TrainerController.setActiveTrainerData(null);
                 TrainerController.setMainInitFlag(true);
                 Intent mainIntent = new Intent(BackpackActivity.this, LoginActivity.class);

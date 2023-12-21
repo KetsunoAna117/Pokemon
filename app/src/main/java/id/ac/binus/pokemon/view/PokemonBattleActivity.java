@@ -78,6 +78,7 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
             case R.id.mnLogout:
                 TrainerController.setActiveTrainerData(null);
                 TrainerController.setMainInitFlag(true);
+                MediaPlayerSingleton.getInstance().stopMediaPlayer();
                 Intent mainIntent = new Intent(PokemonBattleActivity.this, LoginActivity.class);
                 startActivity(mainIntent);
                 return true;
