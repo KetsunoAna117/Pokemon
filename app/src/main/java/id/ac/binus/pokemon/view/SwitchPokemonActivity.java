@@ -120,6 +120,7 @@ public class SwitchPokemonActivity extends AppCompatActivity implements OnPokemo
         Pokemon caughtPokemon = AdventureController.getEnemyPokemon();
         if(TrainerController.getActiveTrainerData().getActivePokemon().getPokemonId().equals(selectedPokemon.getPokemonId())){
             TrainerController.getActiveTrainerData().setActivePokemon(caughtPokemon);
+            TrainerController.changeActivePokemon(caughtPokemon);
         }
 //        TrainerController.getActiveTrainerData().getParty().add(caughtPokemon);
 //        TrainerController.removeTrainerPokemon(selectedPokemon);
