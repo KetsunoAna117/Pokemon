@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -68,11 +69,17 @@ public class AreaSelectionActivity extends AppCompatActivity implements OnRouteS
                 item.setChecked(true);
                 return true;
             case R.id.mnLogout:
-                TrainerController.setActiveTrainerData(null);
-                TrainerController.setMainInitFlag(true);
-                MediaPlayerSingleton.getInstance().stopMediaPlayer();
-                Intent mainIntent = new Intent(AreaSelectionActivity.this, LoginActivity.class);
-                startActivity(mainIntent);
+                if(AdventureController.getEnemyPokemon() == null){
+                    MediaPlayerSingleton.getInstance().stopMediaPlayer();
+                    TrainerController.setActiveTrainerData(null);
+                    TrainerController.setMainInitFlag(true);
+                    Intent mainIntent = new Intent(AreaSelectionActivity.this, LoginActivity.class);
+                    startActivity(mainIntent);
+                }
+                else{
+                    Toast.makeText(this, "Can't logout! You are still fighting an enemy!",
+                            Toast.LENGTH_LONG).show();
+                }
                 return true;
         }
         return false;

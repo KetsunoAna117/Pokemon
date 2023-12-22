@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
@@ -73,11 +74,17 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
                 item.setChecked(true);
                 return true;
             case R.id.mnLogout:
-                TrainerController.setActiveTrainerData(null);
-                TrainerController.setMainInitFlag(true);
-                MediaPlayerSingleton.getInstance().stopMediaPlayer();
-                Intent mainIntent = new Intent(AdventureActivity.this, LoginActivity.class);
-                startActivity(mainIntent);
+                if(AdventureController.getEnemyPokemon() == null){
+                    MediaPlayerSingleton.getInstance().stopMediaPlayer();
+                    TrainerController.setActiveTrainerData(null);
+                    TrainerController.setMainInitFlag(true);
+                    Intent mainIntent = new Intent(AdventureActivity.this, LoginActivity.class);
+                    startActivity(mainIntent);
+                }
+                else{
+                    Toast.makeText(this, "Can't logout! You are still fighting an enemy!",
+                            Toast.LENGTH_LONG).show();
+                }
                 return true;
         }
         return false;
@@ -153,7 +160,7 @@ public class AdventureActivity extends AppCompatActivity implements NavigationBa
     private void playMusic(){
         MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
 
-        if(mediaPlayerSingleton.getCurrentMusic() != R.raw.hoenn_victory_road){
+        if(mediaPlayerSingleton.getCurrentMusic() != R.raw.hoenn_victory_road && mediaPlayerSingleton.getCurrentMusic() != R.raw.battle_kanto){
             mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.hoenn_victory_road);
         }
 

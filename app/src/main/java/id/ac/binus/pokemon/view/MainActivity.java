@@ -16,7 +16,6 @@ import id.ac.binus.pokemon.controller.BackpackController;
 import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Route;
-import id.ac.binus.pokemon.model.Trainer;
 
 public class MainActivity extends AppCompatActivity {
     private Integer pokemonCounter = 0;
@@ -37,12 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
             // Re-initialize all data
             initializeData();
-
-//            TrainerController.setTrainerPartyPokemonSize();
-            loadingProgressBar = findViewById(R.id.main_loading_progress_bar);
-            loadingProgressBar.setMax(TrainerController.getTrainerPartyPokemonSize());
-
-            getPokemonDataFromApi();
         }
     }
 
@@ -62,13 +55,15 @@ public class MainActivity extends AppCompatActivity {
         pokemonCounter++;
         renderProgressBar(pokemonCounter);
 
-        if(pokemonCounter >= TrainerController.getTrainerPartyPokemonSize()){
-            if(TrainerController.getActiveTrainerData().getActivePokemon() == null){
-                TrainerController.setActiveTrainerPokemonFromDatabase();
-            }
-            // After get done, load home
-            Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(homeIntent);
+        if(pokemonCounter >= TrainerController.getActiveTrainerPartySize()){
+            TrainerController.initActiveTrainerPokemonFromDatabase(new TrainerController.OnTrainerActivePokemonFecthed() {
+                @Override
+                public void onResult() {
+                    // After get done, load home
+                    Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(homeIntent);
+                }
+            });
         }
     }
 
@@ -78,19 +73,33 @@ public class MainActivity extends AppCompatActivity {
             Vector<Route> getRoutes = AdventureController.getAllRoutes();
             AdventureController.setActiveRoute(getRoutes.get(0));
             AdventureController.setEnemyPokemon(null);
-            TrainerController.setTrainerPartyPokemonSize();
+            Log.d("DEBUG", "party size: " + TrainerController.getActiveTrainerPartySize());
             TrainerController.setMainInitFlag(false);
         }
-        TrainerController.getActiveTrainerData().setParty(new LinkedList<>());
-        TrainerController.getActiveTrainerData().setBackpack(new Vector<>());
-        BackpackController.loadTrainerBackpackData();
+        TrainerController.initTrainerPartyPokemonSize(new TrainerController.OnPartySizeFetched() {
+            @Override
+            public void onResult() {
+                Log.d("DEBUG", "Finish fetch party pokemon size, Should run here");
+                TrainerController.getActiveTrainerData().setParty(new LinkedList<>());
+                TrainerController.getActiveTrainerData().setBackpack(new Vector<>());
+                BackpackController.loadTrainerBackpackData();
+
+                loadingProgressBar = findViewById(R.id.main_loading_progress_bar);
+                loadingProgressBar.setMax(TrainerController.getActiveTrainerPartySize());
+
+                getPokemonDataFromApi();
+            }
+        });
+
 
     }
 
     private void playMusic(){
         MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
-        mediaPlayerSingleton.initializeMediaPlayer(this, R.raw.evergrandecity);
-        mediaPlayerSingleton.startMediaPlayer();
+        if(mediaPlayerSingleton.getCurrentMusic() != R.raw.battle_kanto){
+            mediaPlayerSingleton.initializeMediaPlayer(this, R.raw.evergrandecity);
+            mediaPlayerSingleton.startMediaPlayer();
+        }
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -63,11 +64,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
                 item.setChecked(true);
                 return true;
             case R.id.mnLogout:
-                TrainerController.setActiveTrainerData(null);
-                TrainerController.setMainInitFlag(true);
-                MediaPlayerSingleton.getInstance().stopMediaPlayer();
-                Intent mainIntent = new Intent(HomeActivity.this, LoginActivity.class);
-                startActivity(mainIntent);
+                if(AdventureController.getEnemyPokemon() == null){
+                    MediaPlayerSingleton.getInstance().stopMediaPlayer();
+                    TrainerController.setActiveTrainerData(null);
+                    TrainerController.setMainInitFlag(true);
+                    Intent mainIntent = new Intent(HomeActivity.this, LoginActivity.class);
+                    startActivity(mainIntent);
+                }
+                else{
+                    Toast.makeText(this, "Can't logout! You are still fighting an enemy!",
+                            Toast.LENGTH_LONG).show();
+                }
                 return true;
         }
 
@@ -142,7 +149,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationBarView
 
     private void playMusic(){
         MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance();
-        if(mediaPlayerSingleton.getCurrentMusic() != R.raw.evergrandecity)
+        if(mediaPlayerSingleton.getCurrentMusic() != R.raw.evergrandecity && mediaPlayerSingleton.getCurrentMusic() != R.raw.battle_kanto)
             mediaPlayerSingleton.changeMediaPlayerSource(this, R.raw.evergrandecity);
     }
 

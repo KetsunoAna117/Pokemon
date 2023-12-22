@@ -1,7 +1,6 @@
 package id.ac.binus.pokemon.controller;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -16,14 +15,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.model.Pokemon;
 import id.ac.binus.pokemon.model.Trainer;
-import id.ac.binus.pokemon.view.LoginActivity;
 import id.ac.binus.pokemon.view.MainActivity;
 import id.ac.binus.pokemon.view.RegisterActivity;
-import id.ac.binus.pokemon.view.StarterActivity;
-import com.google.firebase.database.DataSnapshot;
 
 public class TrainerController implements OnPokemonLoadedListener {
     private static Boolean mainInitFlag = true;
@@ -32,8 +27,16 @@ public class TrainerController implements OnPokemonLoadedListener {
     private static Integer activeTrainerPartySize;
     private MainActivity mainListener;
     private RegisterActivity starterListener;
-    static DatabaseReference userRef, pokeRef;
-    static FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    private static DatabaseReference userRef, pokeRef;
+    private static FirebaseDatabase db = FirebaseDatabase.getInstance("https://pokemon-f8040-default-rtdb.asia-southeast1.firebasedatabase.app/");
+
+    public interface OnPartySizeFetched {
+        void onResult();
+    }
+
+    public interface OnTrainerActivePokemonFecthed{
+        void onResult();
+    }
 
     public static Trainer getActiveTrainerData() {
         return activeTrainerData;
@@ -91,6 +94,7 @@ public class TrainerController implements OnPokemonLoadedListener {
     public static void changeActivePokemon(Pokemon toActivePokemon){
 
         String user = TrainerController.getActiveTrainerData().getName();
+        activeTrainerData.setActivePokemon(toActivePokemon);
 
         userRef = db.getReference("users");
 
@@ -111,6 +115,7 @@ public class TrainerController implements OnPokemonLoadedListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Integer partySize = snapshot.getValue(Integer.class);
+
                 userRef.child(user).child("partySize").setValue(partySize - 1);
             }
 
@@ -119,6 +124,10 @@ public class TrainerController implements OnPokemonLoadedListener {
 
             }
         });
+
+        // switch active pokemon to next pokemon
+        Pokemon toActivePokemon = activeTrainerData.getParty().get(0);
+        changeActivePokemon(toActivePokemon);
     }
 
     @Override
@@ -225,48 +234,57 @@ public class TrainerController implements OnPokemonLoadedListener {
         mainInitFlag = flag;
     }
 
-    public static void setTrainerPartyPokemonSize() {
-        String user = activeTrainerData.getName();
-
-        userRef = db.getReference("users");
-        Log.d("DEBUG", "User is " + user);
-
-//        Buat cek databasenya di Logcat
-//        Log.d("DEBUG", "Database Path: " + userRef.child(user).child("partySize").toString());
-
-        userRef.child(user).child("partySize").addListenerForSingleValueEvent(new ValueEventListener() {
+    public static void initTrainerPartyPokemonSize(OnPartySizeFetched callback) {
+        userRef = db.getReference().child("users").child(getActiveTrainerData().getName());
+        Log.d("DEBUG", "Database Path: " + userRef);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    activeTrainerPartySize = snapshot.getValue(Integer.class);
-                    Log.d("DEBUG", "Party exists: " + activeTrainerPartySize);
-                } else {
-                    Log.d("DEBUG", "Party doesn't exist");
+                Integer partySize = snapshot.child("partySize").getValue(Integer.class);
+                TrainerController.setActiveTrainerPartySize(partySize);
+                Log.d("DEBUG", "party size: " + getActiveTrainerPartySize());
+                callback.onResult();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("DEBUG", "ERROR");
+            }
+        });
+    }
+
+    public static void setActiveTrainerPartySize(Integer size){
+        TrainerController.activeTrainerPartySize = size;
+    }
+    public static Integer getActiveTrainerPartySize(){
+        return activeTrainerPartySize;
+    }
+
+    public static void initActiveTrainerPokemonFromDatabase(OnTrainerActivePokemonFecthed callback){
+        userRef = db.getReference().child("users").child(getActiveTrainerData().getName());
+        Log.d("DEBUG", "Database Path: " + userRef);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String activePokemonId = snapshot.child("activePokemonId").getValue(String.class);
+                LinkedList<Pokemon> pokemons = getActiveTrainerData().getParty();
+                for(Pokemon p : pokemons){
+                    if(p.getPokemonId().equals(activePokemonId)){
+                        getActiveTrainerData().setActivePokemon(p);
+                        Log.d("DEBUG", "party size: " + getActiveTrainerPartySize());
+                        callback.onResult();
+                        return;
+                    }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("ERROR", "onCancelled: " + error.getMessage());
+                Log.d("DEBUG", "ERROR");
             }
         });
-    }
 
-    public static Integer getTrainerPartyPokemonSize(){
-        return activeTrainerPartySize;
-    }
 
-    public static void setActiveTrainerPokemonFromDatabase(){
-        // TODO after get pokemon id, return pokemon from linked list
-        String activePokemonId = getActiveTrainerData().getParty().get(0).getPokemonId();
-
-        LinkedList<Pokemon> pokemons = getActiveTrainerData().getParty();
-        for(Pokemon p : pokemons){
-            if(p.getPokemonId().equals(activePokemonId)){
-                getActiveTrainerData().setActivePokemon(p);
-                return;
-            }
-        }
 
 
     }

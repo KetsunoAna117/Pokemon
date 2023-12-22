@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
+import id.ac.binus.pokemon.controller.AdventureController;
 import id.ac.binus.pokemon.controller.BackpackController;
 import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
 import id.ac.binus.pokemon.controller.OnPokemonItemClickedListener;
@@ -67,12 +68,19 @@ public class BackpackActivity extends AppCompatActivity implements NavigationBar
                 item.setChecked(true);
                 return true;
             case R.id.mnLogout:
-                MediaPlayerSingleton.getInstance().stopMediaPlayer();
-                TrainerController.setActiveTrainerData(null);
-                TrainerController.setMainInitFlag(true);
-                Intent mainIntent = new Intent(BackpackActivity.this, LoginActivity.class);
-                startActivity(mainIntent);
+                if(AdventureController.getEnemyPokemon() == null){
+                    MediaPlayerSingleton.getInstance().stopMediaPlayer();
+                    TrainerController.setActiveTrainerData(null);
+                    TrainerController.setMainInitFlag(true);
+                    Intent mainIntent = new Intent(BackpackActivity.this, LoginActivity.class);
+                    startActivity(mainIntent);
+                }
+                else{
+                    Toast.makeText(this, "Can't logout! You are still fighting an enemy!",
+                            Toast.LENGTH_LONG).show();
+                }
                 return true;
+
         }
 
         return false;
