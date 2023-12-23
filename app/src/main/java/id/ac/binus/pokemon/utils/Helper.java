@@ -1,4 +1,4 @@
-package id.ac.binus.pokemon.controller;
+package id.ac.binus.pokemon.utils;
 
 public class Helper {
     public static Integer getRandomNumber(Integer min, Integer max){

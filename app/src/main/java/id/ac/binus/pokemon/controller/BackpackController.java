@@ -15,13 +15,14 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import id.ac.binus.pokemon.model.Pokemon;
-import id.ac.binus.pokemon.model.Trainer;
+import id.ac.binus.pokemon.model.items.Explorator;
 import id.ac.binus.pokemon.model.items.HpUp;
 import id.ac.binus.pokemon.model.items.Item;
 import id.ac.binus.pokemon.model.items.Potion;
 import id.ac.binus.pokemon.model.items.Protein;
 import id.ac.binus.pokemon.model.items.RareCandy;
 import id.ac.binus.pokemon.model.items.Revive;
+import id.ac.binus.pokemon.utils.Helper;
 
 public class BackpackController {
     private static HashMap<Integer, Item> backpack;
@@ -61,6 +62,8 @@ public class BackpackController {
                             case 5:
                                 backpack.put(5, new Revive(itemQuantity));
                                 break;
+                            case 6:
+                                backpack.put(6, new Explorator(itemQuantity));
 
                         }
                     }
@@ -93,8 +96,36 @@ public class BackpackController {
         return false;
     }
 
+    public static Boolean useItem(Item selectedItem){
+        if(selectedItem.getQuantity() > 0){
+            Boolean statusIsTrue = selectedItem.useItem();
+
+            Integer qty = selectedItem.getQuantity() - 1;
+
+            if(statusIsTrue){
+
+                itemRef.child(selectedItem.getName()).child("itemQuantity").setValue(qty);
+
+                selectedItem.setQuantity(qty);
+
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
     public static Item getItemReward(){
-        Integer dropItemId = Helper.getRandomNumber(1, backpack.size());
+        Integer determiner = Helper.getRandomNumber(1, 10);
+        int dropItemId;
+        // 30% chance to get explorator kit
+        if(determiner <= 3){
+            dropItemId = 6;
+        }
+        else{
+            dropItemId = Helper.getRandomNumber(1, 5);
+        }
+
         Log.d("DEBUG", "DROP ITEM RANDOMIZED ID: " + dropItemId);
         Item selectedItem = backpack.get(dropItemId);
         if(selectedItem != null){

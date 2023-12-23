@@ -1,4 +1,4 @@
-package id.ac.binus.pokemon.controller;
+package id.ac.binus.pokemon.listener;
 
 import id.ac.binus.pokemon.model.Pokemon;
 

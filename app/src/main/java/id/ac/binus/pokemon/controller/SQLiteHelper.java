@@ -32,6 +32,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "pokemonName String," +
                 "FOREIGN KEY(routeName) REFERENCES route(routeName)" + ")"
         );
+
+        sqLiteDatabase.execSQL("INSERT INTO route (routeName, minLevel, maxLevel) VALUES (?, ?, ?)", new Object[]{"Route 1", 1, 10});
+        sqLiteDatabase.execSQL("INSERT INTO pokemon (routeName, pokemonName) VALUES (?, ?)", new Object[]{"Route 1", "zigzagoon"});
+        sqLiteDatabase.execSQL("INSERT INTO pokemon (routeName, pokemonName) VALUES (?, ?)", new Object[]{"Route 1", "wurmple"});
+        sqLiteDatabase.execSQL("INSERT INTO pokemon (routeName, pokemonName) VALUES (?, ?)", new Object[]{"Route 1", "poochyena"});
+        sqLiteDatabase.execSQL("INSERT INTO pokemon (routeName, pokemonName) VALUES (?, ?)", new Object[]{"Route 1", "taillow"});
+        sqLiteDatabase.execSQL("INSERT INTO pokemon (routeName, pokemonName) VALUES (?, ?)", new Object[]{"Route 1", "shroomish"});
+        sqLiteDatabase.execSQL("INSERT INTO pokemon (routeName, pokemonName) VALUES (?, ?)", new Object[]{"Route 1", "wingull"});
+
     }
 
     //INSERT
@@ -148,6 +157,23 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return routeList;
+    }
+
+    public Route getRouteByRouteName(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM route WHERE routeName = ?", new String[]{name});
+        if(cursor != null){
+            while(cursor.moveToNext()){
+                String routeName = cursor.getString(cursor.getColumnIndexOrThrow("routeName"));
+                int minLevel = cursor.getInt(cursor.getColumnIndexOrThrow("minLevel"));
+                int maxLevel = cursor.getInt(cursor.getColumnIndexOrThrow("maxLevel"));
+
+                Route route = new Route(routeName, minLevel, maxLevel, this.getPokemon(routeName));
+                return route;
+            }
+        }
+        return null;
     }
 
     @Override

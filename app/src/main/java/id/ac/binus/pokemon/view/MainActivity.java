@@ -13,7 +13,7 @@ import java.util.Vector;
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
 import id.ac.binus.pokemon.controller.BackpackController;
-import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
+import id.ac.binus.pokemon.utils.MediaPlayerSingleton;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Route;
 
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     public void initializeData(){
         if(TrainerController.getMainInitFlag()){
             Log.d("DEBUG", "INTIALIZE DATA");
-            Vector<Route> getRoutes = AdventureController.getAllRoutes();
+            Vector<Route> getRoutes = AdventureController.getAllRoutes(this);
             AdventureController.setActiveRoute(getRoutes.get(0));
             AdventureController.setEnemyPokemon(null);
             Log.d("DEBUG", "party size: " + TrainerController.getActiveTrainerPartySize());

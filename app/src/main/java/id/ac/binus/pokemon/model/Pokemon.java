@@ -5,9 +5,8 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-import java.util.Vector;
 
-import id.ac.binus.pokemon.controller.Helper;
+import id.ac.binus.pokemon.utils.Helper;
 import id.ac.binus.pokemon.model.pokemon_attribute.Sprites;
 import id.ac.binus.pokemon.model.pokemon_attribute.Type;
 

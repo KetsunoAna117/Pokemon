@@ -20,6 +20,9 @@ public abstract class Item {
     }
 
     public abstract Boolean useItem(Pokemon pokemon);
+    public Boolean useItem(){
+        return true;
+    }
     public abstract Item clone();
 
     public Integer getId() {

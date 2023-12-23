@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MyPokemonAdapter"
+    tools:context=".view.adapter.MyPokemonAdapter"
     android:gravity="center"
     android:orientation="horizontal" >
 

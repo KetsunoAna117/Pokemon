@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import id.ac.binus.pokemon.listener.OnPokemonLoadedListener;
 import id.ac.binus.pokemon.model.Pokemon;
 import id.ac.binus.pokemon.model.Trainer;
 import id.ac.binus.pokemon.view.MainActivity;

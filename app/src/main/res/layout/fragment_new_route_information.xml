@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.newRouteActivityFragment.NewRouteInformationFragment">
+
+    <TextView
+        android:layout_marginBottom="10sp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:id="@+id/new_route_fragment_title"
+        android:text="@string/new_area_pokemon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:id="@+id/new_route_pokemon_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/new_route_input_container"
+        android:layout_below="@id/new_route_fragment_title" />
+
+    <LinearLayout
+        android:layout_marginTop="20sp"
+        android:layout_marginBottom="40sp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/new_route_input_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/new_route_level"
+            android:text="Lv. 1-100"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="Route Name"
+            android:id="@+id/new_route_input_route_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            android:text="Submit"
+            android:id="@+id/new_route_submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_marginTop="5sp"
+            android:id="@+id/new_route_status_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>

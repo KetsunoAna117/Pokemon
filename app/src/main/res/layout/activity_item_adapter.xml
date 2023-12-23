@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="15sp"
     android:layout_marginBottom="15sp"
-    tools:context=".view.ItemAdapter">
+    tools:context=".view.adapter.ItemAdapter">
 
     <ImageView
         android:id="@+id/item_sprite"

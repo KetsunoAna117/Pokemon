@@ -1,4 +1,4 @@
-package id.ac.binus.pokemon.view;
+package id.ac.binus.pokemon.view.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +21,7 @@ import java.util.LinkedList;
 import java.util.Locale;
 
 import id.ac.binus.pokemon.R;
-import id.ac.binus.pokemon.controller.OnPokemonButtonSwitchListener;
-import id.ac.binus.pokemon.controller.TrainerController;
+import id.ac.binus.pokemon.listener.OnPokemonButtonSwitchListener;
 import id.ac.binus.pokemon.model.Pokemon;
 
 public class MyPokemonAdapter extends ArrayAdapter<Pokemon> {

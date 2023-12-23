@@ -17,10 +17,11 @@ import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
-import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
-import id.ac.binus.pokemon.controller.OnRouteSwitchListener;
+import id.ac.binus.pokemon.utils.MediaPlayerSingleton;
+import id.ac.binus.pokemon.listener.OnRouteSwitchListener;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Route;
+import id.ac.binus.pokemon.view.adapter.AreaAdapter;
 
 public class AreaSelectionActivity extends AppCompatActivity implements OnRouteSwitchListener, NavigationBarView.OnItemSelectedListener {
     ListView area_selection_list_view;
@@ -43,7 +44,7 @@ public class AreaSelectionActivity extends AppCompatActivity implements OnRouteS
     private void putAllRoutesData(){
         area_selection_list_view = (ListView) findViewById(R.id.area_selection_list_view);
         AdventureController controller = new AdventureController();
-        Vector<Route> routes = AdventureController.getAllRoutes();
+        Vector<Route> routes = AdventureController.getAllRoutes(this);
 
         AreaAdapter areaAdapter = new AreaAdapter(this, R.layout.activity_area_adapter, routes, this);
         area_selection_list_view.setAdapter(areaAdapter);

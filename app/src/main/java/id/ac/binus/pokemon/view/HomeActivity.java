@@ -21,15 +21,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
 import java.util.Locale;
-import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
-import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
-import id.ac.binus.pokemon.controller.OnPokemonButtonSwitchListener;
+import id.ac.binus.pokemon.utils.MediaPlayerSingleton;
+import id.ac.binus.pokemon.listener.OnPokemonButtonSwitchListener;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
-import id.ac.binus.pokemon.model.Route;
+import id.ac.binus.pokemon.view.adapter.MyPokemonAdapter;
 
 public class HomeActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnPokemonButtonSwitchListener {
     private BottomNavigationView nav;

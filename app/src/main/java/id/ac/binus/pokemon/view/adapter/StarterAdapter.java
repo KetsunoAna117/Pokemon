@@ -1,11 +1,9 @@
-package id.ac.binus.pokemon.view;
+package id.ac.binus.pokemon.view.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +15,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
-import id.ac.binus.pokemon.controller.OnRouteSwitchListener;
 import id.ac.binus.pokemon.model.Pokemon;
-import id.ac.binus.pokemon.model.Route;
 
 public class StarterAdapter extends ArrayAdapter<Pokemon> {
     private Context context;

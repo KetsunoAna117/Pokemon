@@ -2,7 +2,9 @@ package id.ac.binus.pokemon.controller;
 
 import android.util.Log;
 
+import id.ac.binus.pokemon.listener.OnPokemonLoadedListener;
 import id.ac.binus.pokemon.model.Pokemon;
+import id.ac.binus.pokemon.utils.IPokeApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,7 +37,6 @@ public class PokeApiService {
                                                     response.body().getName(),
                                                     response.body().getTypes(), response.body().getSprites(),
                                                     AdventureController.getActiveRoute().getMinLevel(), AdventureController.getActiveRoute().getMaxLevel());
-                    Log.d("DEBUG", "pokemon sprites from api event: " + response.body().getSprites().getFrontSprite());
                     listener.onPokemonReceived(pokemon);
                 }
             }
@@ -62,7 +63,6 @@ public class PokeApiService {
                             Hp,
                             maxHp,
                             attackStats);
-                    Log.d("DEBUG", "pokemon sprites from api event: " + response.body().getSprites().getFrontSprite());
                     listener.onPokemonReceived(pokemon);
                 }
             }

@@ -1,11 +1,9 @@
-package id.ac.binus.pokemon.view;
+package id.ac.binus.pokemon.view.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
-import id.ac.binus.pokemon.controller.OnRouteSwitchListener;
-import id.ac.binus.pokemon.model.Pokemon;
+import id.ac.binus.pokemon.listener.OnRouteSwitchListener;
 import id.ac.binus.pokemon.model.Route;
 
 public class AreaAdapter extends ArrayAdapter<Route> {

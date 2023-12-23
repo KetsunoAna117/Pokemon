@@ -1,4 +1,4 @@
-package id.ac.binus.pokemon.view;
+package id.ac.binus.pokemon.view.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
-import id.ac.binus.pokemon.controller.OnPokemonItemClickedListener;
+import id.ac.binus.pokemon.listener.OnPokemonItemClickedListener;
 import id.ac.binus.pokemon.model.items.Item;
 
 public class ItemAdapter extends ArrayAdapter<Item>{

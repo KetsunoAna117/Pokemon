@@ -9,7 +9,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,8 +23,8 @@ import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
-import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
-import id.ac.binus.pokemon.controller.OnPokemonLoadedListener;
+import id.ac.binus.pokemon.utils.MediaPlayerSingleton;
+import id.ac.binus.pokemon.listener.OnPokemonLoadedListener;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
 

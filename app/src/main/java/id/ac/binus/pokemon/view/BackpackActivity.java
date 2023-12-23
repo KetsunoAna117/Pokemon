@@ -20,18 +20,19 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Vector;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
 import id.ac.binus.pokemon.controller.BackpackController;
-import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
-import id.ac.binus.pokemon.controller.OnPokemonItemClickedListener;
+import id.ac.binus.pokemon.model.items.Explorator;
+import id.ac.binus.pokemon.utils.MediaPlayerSingleton;
+import id.ac.binus.pokemon.listener.OnPokemonItemClickedListener;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
 import id.ac.binus.pokemon.model.items.Item;
+import id.ac.binus.pokemon.view.adapter.ItemAdapter;
 
 public class BackpackActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, OnPokemonItemClickedListener {
     private BottomNavigationView nav;
@@ -118,6 +119,19 @@ public class BackpackActivity extends AppCompatActivity implements NavigationBar
 
     @Override
     public void onItemClickedEvent(Item selectedItem) {
+        if(selectedItem instanceof Explorator){
+            Intent addRouteIntent = new Intent(BackpackActivity.this, AddNewRouteActivity.class);
+            Boolean status = BackpackController.useItem(selectedItem);
+            if(status){
+                startActivity(addRouteIntent);
+            }
+            else{
+                Toast.makeText(this, "Failed to use item",
+                        Toast.LENGTH_LONG).show();
+            }
+
+        }
+
         Pokemon activePokemon = TrainerController.getActiveTrainerData().getActivePokemon();
 
         Boolean status = BackpackController.useItem(selectedItem, activePokemon);

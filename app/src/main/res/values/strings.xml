@@ -3,4 +3,8 @@
     <string name="trainer_info">Trainer Info</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_route_information">new route information</string>
+    <string name="new_area_pokemon">New Area Pokemon</string>
+    <string name="pokemon_name">Pokemon Name</string>
+    <string name="pokemon_type">Pokemon Type</string>
 </resources>

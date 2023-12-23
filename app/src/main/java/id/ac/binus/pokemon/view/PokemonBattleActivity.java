@@ -1,10 +1,8 @@
 package id.ac.binus.pokemon.view;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -27,7 +25,7 @@ import com.squareup.picasso.Picasso;
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
 import id.ac.binus.pokemon.controller.BackpackController;
-import id.ac.binus.pokemon.controller.MediaPlayerSingleton;
+import id.ac.binus.pokemon.utils.MediaPlayerSingleton;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
 import id.ac.binus.pokemon.model.items.Item;
@@ -269,6 +267,8 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
         onActionUpdateBattleMessage("Got Away Safely");
         adventure_activity_continue_button.setOnClickListener(event -> {
             AdventureController.setEnemyPokemon(null);
+            MediaPlayerSingleton mediaPlayerSingleton = MediaPlayerSingleton.getInstance(); // stops music
+            mediaPlayerSingleton.stopMediaPlayer();
             Intent intent = new Intent(PokemonBattleActivity.this, MainActivity.class);
             startActivity(intent);
         });

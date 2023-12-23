@@ -1,4 +1,4 @@
-package id.ac.binus.pokemon.controller;
+package id.ac.binus.pokemon.utils;
 
 import android.content.Context;
 import android.media.MediaPlayer;

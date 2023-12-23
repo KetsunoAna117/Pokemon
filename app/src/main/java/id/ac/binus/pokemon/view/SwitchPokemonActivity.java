@@ -1,13 +1,11 @@
 package id.ac.binus.pokemon.view;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,21 +13,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
 
 import id.ac.binus.pokemon.R;
 import id.ac.binus.pokemon.controller.AdventureController;
-import id.ac.binus.pokemon.controller.OnPokemonButtonSwitchListener;
+import id.ac.binus.pokemon.listener.OnPokemonButtonSwitchListener;
 import id.ac.binus.pokemon.controller.TrainerController;
 import id.ac.binus.pokemon.model.Pokemon;
+import id.ac.binus.pokemon.view.adapter.MyPokemonAdapter;
 
 public class SwitchPokemonActivity extends AppCompatActivity implements OnPokemonButtonSwitchListener {
     private ListView mypokemonList;

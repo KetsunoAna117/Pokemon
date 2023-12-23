@@ -107,12 +107,13 @@ public class AuthenticationController {
         userData.put("partySize", 1);
         userData.put("activePokemonId", key);
 
-//                Item
+//      Item
         HashMap<String, Object> hpUpData = createItemData(1);
         HashMap<String, Object> potionData = createItemData(2);
         HashMap<String, Object> proteinData = createItemData(3);
         HashMap<String, Object> rareCandyData = createItemData(4);
         HashMap<String, Object> reviveData = createItemData(5);
+        HashMap<String, Object> exploratorData = createItemData(6);
 
         pokeRef.child(key).setValue(pokeData);
         itemRef.child("Hp Up").setValue(hpUpData);
@@ -120,6 +121,7 @@ public class AuthenticationController {
         itemRef.child("Protein").setValue(proteinData);
         itemRef.child("Rare Candy").setValue(rareCandyData);
         itemRef.child("Revive").setValue(reviveData);
+        itemRef.child("Explorator").setValue(exploratorData);
 
         userRef.child(user).setValue(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
