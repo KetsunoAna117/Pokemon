@@ -214,6 +214,7 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
             animateTakingDamage(pokemonSprite);
             Double multiplier = AdventureController.onPokemonAttackEvent(attacking, target, pokemonAllyHpBar);
             putAllyPokemonData();
+            AdventureController.updatePokemonHP(TrainerController.getActiveTrainerData().getName(), TrainerController.getActiveTrainerData().getActivePokemon());
 
             if(multiplier == 2){
                 onActionUpdateBattleMessage("It's Super Effective!");
@@ -297,7 +298,6 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
                     adventure_activity_continue_button.setOnClickListener(event_4 -> {
                         TrainerController.addTrainerExp();
                         AdventureController.setEnemyPokemon(null);
-                        AdventureController.updatePokemonHP(TrainerController.getActiveTrainerData().getName(), TrainerController.getActiveTrainerData().getActivePokemon());
                         Intent adventureIntent = new Intent(PokemonBattleActivity.this, MainActivity.class);
                         startActivity(adventureIntent);
                     });
@@ -308,7 +308,6 @@ public class PokemonBattleActivity extends AppCompatActivity implements Navigati
                 onActionUpdateBattleMessage(TrainerController.getActiveTrainerData().getActivePokemon().getName() + " is fainted");
                 adventure_activity_continue_button.setOnClickListener((event_3) -> {
                     onActionUpdateBattleMessage("You lose the battle!");
-                    AdventureController.updatePokemonHP(TrainerController.getActiveTrainerData().getName(), TrainerController.getActiveTrainerData().getActivePokemon());
                     adventure_activity_continue_button.setOnClickListener(event_4 -> {
                         AdventureController.setEnemyPokemon(null);
                         Intent homeIntent = new Intent(PokemonBattleActivity.this, MainActivity.class);
