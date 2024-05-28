@@ -45,12 +45,13 @@ To install and run this app on your Android Phone, follow these steps:
 1. Launch the app on your Android Phone
 2. Login/Register your account if you haven't
 3. Use the bottom navigation bar to navigate between page
-4. You can:
-   a. at the home view, view your pokemon data or set an active pokemon
-   b. at the adventure view, select route to discover pokemon and battle pokemon
-   c. at the battle pokemon view, you can catch or defeat a pokemon (defeating a pokemon will grant you randomized item which you can see at the backpack view)
-   d. at backpack view, you can use items for active pokemon
-   e. use explorator kit to discover a new area for new pokemon which you can name the area yourself!
+
+## Each page information
+-  At the home view, You can view your pokemon data or set an active pokemon
+-  At the adventure view, You can select route to discover pokemon and battle pokemon
+-  At the battle pokemon view, you can catch or defeat a pokemon (defeating a pokemon will grant you randomized item which you can see at the backpack view)
+-  At backpack view, you can use items for active pokemon
+-  You can use explorator kit to discover a new area for new pokemon which you can name the area yourself!
 
 ## Authors
 
